@@ -17,8 +17,7 @@ export const ar = {
   aiQcPageSkipped: 'الصفحة {n}: تم تخطي فحص التخطيط التلقائي',
   aiQcStopped: 'تم إيقاف فحص التخطيط',
   aiQcCapped: '{count} صفحة أخرى لم تُفحص (حد لكل تشغيل)',
-  aiGskLoginBtn: 'تسجيل الدخول إلى Genspark',
-  aiPanelTitle: 'Genspark',
+  aiPanelTitle: 'GenOffice AI',
   aiOpenAssistant: 'فتح مساعد الذكاء الاصطناعي',
   aiFactCheckBtn: 'تدقيق حقائق AI',
   aiFactCheckPrompt:
@@ -112,7 +111,7 @@ export const ar = {
   aiErrNetwork:
     'مشكلة في الشبكة: تعذّر الوصول إلى خدمة الذكاء الاصطناعي. تحقق من الاتصال وحاول مجددًا',
   aiCreditsExhausted:
-    'نفدت أرصدة Genspark لديك. يرجى إعادة الشحن عبر genspark.ai/pricing ثم المحاولة مجددًا',
+    'نفد حد الاستخدام أو رصيد مزوّد الذكاء الاصطناعي. تحقّق من خطتك أو مفتاح API ثم أعد المحاولة',
   aiErrRequestFailed: 'فشل إرسال الطلب: {msg}',
   aiErrGenerateFailed: 'فشل الإنشاء',
   aiErrRegenFailed: 'فشلت إعادة إنشاء الصفحة',
@@ -221,5 +220,4 @@ export const ar = {
   aiSumSaveTemplate: 'حفظ قالب النمط "{name}"',
   aiSumTemplatesEmpty: 'قوالب الأنماط (فارغ)',
   aiSumListTemplates: 'سرد {count} من قوالب الأنماط',
-  aiPageCloudToLocal: 'السحابة غير متاحة — تم التوليد محليًا',
 } satisfies Record<keyof typeof zh, string>

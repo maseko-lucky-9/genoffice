@@ -1,6 +1,6 @@
 # Installer GenOffice
 
-Chaque build est publié sur la [page Releases](https://github.com/genspark-ai/genoffice/releases/latest). Tous proviennent de `main` ; les installeurs macOS et Windows sont signés.
+Chaque build est publié sur la [page Releases](https://github.com/maseko-lucky-9/genoffice/releases/latest). Tous proviennent de `main` ; les installeurs macOS et Windows sont signés.
 
 ## Choisir le fichier pour votre machine
 

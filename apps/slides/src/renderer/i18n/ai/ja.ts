@@ -17,8 +17,7 @@ export const ja = {
   aiQcPageSkipped: 'ページ {n}:自動レイアウトチェックをスキップ',
   aiQcStopped: 'レイアウトチェックを停止しました',
   aiQcCapped: '残り {count} ページは未チェック(1回の上限)',
-  aiGskLoginBtn: 'Genspark にサインイン',
-  aiPanelTitle: 'Genspark',
+  aiPanelTitle: 'GenOffice AI',
   aiOpenAssistant: 'AI アシスタントを開く',
   aiFactCheckBtn: 'AI ファクトチェック',
   aiFactCheckPrompt:
@@ -113,7 +112,7 @@ export const ja = {
   aiErrNetwork:
     'ネットワークに問題があり、AI サービスに接続できません。接続を確認して再試行してください',
   aiCreditsExhausted:
-    'Gensparkクレジットを使い切りました。genspark.ai/pricing でチャージしてから再試行してください',
+    'AI プロバイダーの利用上限またはクレジットに達しました。プランまたは API キーを確認してから再試行してください',
   aiErrRequestFailed: 'リクエストの送信に失敗しました: {msg}',
   aiErrGenerateFailed: '生成に失敗しました',
   aiErrRegenFailed: 'ページの再生成に失敗しました',
@@ -222,5 +221,4 @@ export const ja = {
   aiSumSaveTemplate: 'スタイル テンプレート「{name}」を保存',
   aiSumTemplatesEmpty: 'スタイル テンプレート一覧（空）',
   aiSumListTemplates: '{count} 個のスタイル テンプレートを一覧表示',
-  aiPageCloudToLocal: 'クラウド生成不可効 — ローカルで生成',
 } satisfies Record<keyof typeof zh, string>

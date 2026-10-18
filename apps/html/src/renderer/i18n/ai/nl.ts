@@ -4,7 +4,8 @@ export const nl = {
   aiCollapsePanel: 'Paneel inklappen',
   aiComposerPlaceholder: 'Vraag AI te schrijven of bewerken…',
   aiCopyReplyTitle: 'Antwoord kopiëren',
-  aiCreditsExhausted: 'Credits op — waardeer op via genspark.ai',
+  aiCreditsExhausted:
+    'De gebruikslimiet of het tegoed van de AI-provider is op. Controleer je abonnement of API-sleutel en probeer het opnieuw',
   aiEmptyTitle: 'Ontwerp een pagina met AI',
   aiEmptyBody:
     'Landingspagina, rapport, poster: zeg waarvoor en voor wie; de AI stelt eerst een briefing voor en bouwt daarna de pagina',

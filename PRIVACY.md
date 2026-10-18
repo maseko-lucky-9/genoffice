@@ -25,8 +25,6 @@ When enabled, the app sends these events:
 - `app_launch` — no event-specific parameter
 - `file_open` — `ext`, the file extension such as `docx` or `xlsx`
 - `file_new` — `kind`, one of `docx`, `xlsx`, `pptx`, `md`, or `pdf`
-- `login_click` — no event-specific parameter
-- `login_success` — no event-specific parameter
 
 Every event includes:
 
@@ -43,8 +41,8 @@ user's physical location.
 
 The Google Analytics 4 payload also uses a random install UUID as `client_id`.
 The country code is sent through GA4's country-only `user_location` field; the
-app does not send a city or region. Neither identifier is a Genspark account or
-email address.
+app does not send a city or region. Neither identifier is an account or email
+address.
 
 ## Network information
 
@@ -61,7 +59,7 @@ GenOffice analytics never sends:
 - document content
 - file names
 - file paths
-- Genspark account identity
+- account identity
 - email addresses
 
 The analytics metadata is injected only into packaged official builds and is

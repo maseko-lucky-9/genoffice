@@ -17,8 +17,7 @@ export const vi = {
   aiQcPageSkipped: 'Trang {n}: đã bỏ qua kiểm tra bố cục tự động',
   aiQcStopped: 'Đã dừng kiểm tra bố cục',
   aiQcCapped: 'Còn {count} trang chưa được kiểm tra (đạt giới hạn mỗi lần chạy)',
-  aiGskLoginBtn: 'Đăng nhập Genspark',
-  aiPanelTitle: 'Genspark',
+  aiPanelTitle: 'GenOffice AI',
   aiOpenAssistant: 'Mở trợ lý AI',
   aiFactCheckBtn: 'Kiểm chứng thông tin AI',
   aiFactCheckPrompt:
@@ -114,7 +113,7 @@ export const vi = {
   aiErrNetwork:
     'Sự cố mạng: không thể kết nối tới dịch vụ AI. Vui lòng kiểm tra kết nối và thử lại',
   aiCreditsExhausted:
-    'Tín dụng Genspark của bạn đã hết. Truy cập genspark.ai/pricing để nạp thêm, sau đó thử lại',
+    'Hạn mức sử dụng hoặc tín dụng của nhà cung cấp AI đã hết. Hãy kiểm tra gói hoặc khóa API rồi thử lại',
   aiErrRequestFailed: 'Gửi yêu cầu thất bại: {msg}',
   aiErrGenerateFailed: 'Tạo thất bại',
   aiErrRegenFailed: 'Tạo lại trang chiếu thất bại',
@@ -223,5 +222,4 @@ export const vi = {
   aiSumSaveTemplate: 'Đã lưu mẫu phong cách "{name}"',
   aiSumTemplatesEmpty: 'Mẫu phong cách (trống)',
   aiSumListTemplates: 'Đã liệt kê {count} mẫu phong cách',
-  aiPageCloudToLocal: 'đám mây không khả dụng — đã tạo cục bộ',
 } satisfies Record<keyof typeof zh, string>

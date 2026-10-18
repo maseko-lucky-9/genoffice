@@ -2,7 +2,7 @@
 
 ## Ouvrir les paramètres
 
-La ligne de compte en bas à gauche de l’accueil ouvre le panneau des paramètres (elle affiche Se connecter lorsque vous êtes déconnecté). Il comporte six sections : Compte, Modèle IA, Médias IA et recherche, Général, Intégrations et À propos.
+La ligne en bas à gauche de l’accueil ouvre le panneau des paramètres. Il comporte cinq sections : Modèle IA, Médias IA et recherche, Général, Intégrations et À propos.
 
 ![Paramètres ▸ Général, où se trouvent la langue, le thème, l’enregistrement automatique et l’interrupteur des statistiques d’utilisation](img/settings-general.png)
 
@@ -45,12 +45,6 @@ Les paramètres peuvent enregistrer GenOffice comme gestionnaire de .docx / .xls
 
 - Aide ▸ Mentions relatives aux logiciels tiers : l’inventaire complet des licences open source livré avec l’application.
 - Aide ▸ Vérifier les mises à jour : déclenche une vérification manuelle ; une version plus récente propose l’installation.
-
-## Connexion à Genspark
-
-- Le point de connexion (paramètres ou liste des projets cloud) utilise un flux par **code d’appareil** : GenOffice affiche un code et ouvre la connexion dans le navigateur ; la suite est automatique une fois terminée.
-- La connexion sert uniquement à : la liste des projets cloud et aux modèles hébergés de Genspark. Sans elle, toutes les fonctions locales et les modèles personnalisés continuent de fonctionner.
-- La déconnexion se fait en un clic dans les paramètres.
 
 ## Intégration MCP (pour les utilisateurs avancés / clients IA)
 

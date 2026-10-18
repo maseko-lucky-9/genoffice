@@ -12,7 +12,7 @@ afterEach(() => {
 
 const request = {
   requestId: 'r1',
-  provider: 'genspark',
+  provider: 'anthropic',
   model: 'claude-opus-5-5',
   maxTokens: 32768,
   system: 'sys',

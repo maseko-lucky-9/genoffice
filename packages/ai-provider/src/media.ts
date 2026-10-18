@@ -21,20 +21,6 @@ export const DEEPSEEK_MEDIA_BASE_URL = 'https://api.deepseek.com/v1'
 // models in step with the chat catalog in providers.ts.
 export const AI_MEDIA_PROVIDERS: AiMediaProviderMeta[] = [
   {
-    id: 'genspark',
-    label: 'Genspark',
-    description: 'Image generation, media analysis and search through your Genspark sign-in',
-    keyPlaceholder: 'Not required - sign in to Genspark',
-    defaultBaseUrl: '',
-    imageProtocol: 'openai-images',
-    imageModels: [],
-    defaultImageModel: '',
-    analysisProtocol: 'openai-chat',
-    analysisModels: [],
-    defaultAnalysisModel: '',
-    videoAnalysis: true,
-  },
-  {
     id: 'openai',
     label: 'OpenAI',
     description: 'GPT Image for generation and editing; GPT chat models for image analysis',
@@ -229,18 +215,19 @@ export function defaultAiMediaSettings(): AiMediaSettings {
       baseUrl: meta.needsBaseUrl ? '' : undefined,
     }
   }
-  return {
-    imageProvider: 'genspark',
-    analysisProvider: 'genspark',
-    videoAnalysisProvider: 'genspark',
-    providers,
-  }
+  // no vendor is selected: each media tool stays off until the user picks one
+  return { providers }
+}
+
+/** a stored id this build does not ship (a pre-fork 'genspark', a typo) reads as absent */
+function knownMediaProvider(id: unknown): AiMediaProviderId | undefined {
+  return AI_MEDIA_PROVIDERS.some((m) => m.id === id) ? (id as AiMediaProviderId) : undefined
 }
 
 /**
  * Merge a stored media block over defaults, trimming pasted whitespace. The
  * pre-catalog `provider` field (one choice for both tools) seeds both
- * per-capability choices. Unknown provider ids are kept and simply never activate.
+ * per-capability choices. Unknown provider ids fall back to the defaults.
  */
 export function resolveAiMediaSettings(
   stored: Partial<AiMediaSettings> | undefined,
@@ -249,7 +236,7 @@ export function resolveAiMediaSettings(
   if (!stored) return defaults
   const providers = { ...defaults.providers }
   for (const [id, config] of Object.entries(stored.providers ?? {})) {
-    if (!config || typeof config !== 'object') continue
+    if (!config || typeof config !== 'object' || !knownMediaProvider(id)) continue
     // Hand-edited settings files can carry non-string values: trim only
     // strings (like the search-settings guard) instead of crashing.
     const str = (v: unknown, fallback: string): string =>
@@ -266,13 +253,15 @@ export function resolveAiMediaSettings(
           : {}),
     }
   }
-  const legacy = stored.provider
-  const analysisProvider = stored.analysisProvider ?? legacy ?? defaults.analysisProvider
+  const legacy = knownMediaProvider(stored.provider)
+  const imageProvider = knownMediaProvider(stored.imageProvider) ?? legacy
+  const analysisProvider = knownMediaProvider(stored.analysisProvider) ?? legacy
+  // a pre-split file used one vendor for all media analysis
+  const videoAnalysisProvider = knownMediaProvider(stored.videoAnalysisProvider) ?? analysisProvider
   return {
-    imageProvider: stored.imageProvider ?? legacy ?? defaults.imageProvider,
-    analysisProvider,
-    // a pre-split file used one vendor for all media analysis
-    videoAnalysisProvider: stored.videoAnalysisProvider ?? analysisProvider,
+    ...(imageProvider ? { imageProvider } : {}),
+    ...(analysisProvider ? { analysisProvider } : {}),
+    ...(videoAnalysisProvider ? { videoAnalysisProvider } : {}),
     providers,
   }
 }
@@ -291,35 +280,35 @@ export function mediaConfigUsable(
 
 /**
  * The stored provider for one capability, honored only when it exists, has
- * that capability and is usable; anything else falls back to genspark so a
- * half-filled setup degrades to the signed-in default.
+ * that capability and is usable; anything else is null, so the tool reports
+ * that no media provider is configured.
  */
 export function activeMediaProvider(
   settings: Pick<AiSettings, 'media'>,
   capability: MediaCapability,
-): AiMediaProviderId {
+): AiMediaProviderId | null {
   const media = settings.media
-  if (!media) return 'genspark'
+  if (!media) return null
   const id =
     capability === 'image'
       ? media.imageProvider
       : capability === 'video'
         ? media.videoAnalysisProvider
         : media.analysisProvider
-  if (!id || id === 'genspark') return 'genspark'
+  if (!id) return null
   const meta = getMediaProviderMeta(id)
-  if (!meta || !providerHasCapability(meta, capability)) return 'genspark'
-  if (!mediaConfigUsable(meta, media.providers?.[id])) return 'genspark'
+  if (!meta || !providerHasCapability(meta, capability)) return null
+  if (!mediaConfigUsable(meta, media.providers?.[id])) return null
   return id
 }
 
-/** the active BYOK config for one capability, or null when it runs through Genspark */
+/** the active BYOK config for one capability, or null when none is configured */
 export function activeMediaConfig(
   settings: Pick<AiSettings, 'media'>,
   capability: MediaCapability,
-): { provider: Exclude<AiMediaProviderId, 'genspark'>; config: AiMediaProviderConfig } | null {
+): { provider: AiMediaProviderId; config: AiMediaProviderConfig } | null {
   const provider = activeMediaProvider(settings, capability)
-  if (provider === 'genspark') return null
+  if (provider === null) return null
   return { provider, config: settings.media!.providers[provider] }
 }
 
@@ -336,38 +325,30 @@ function byokModel(
 }
 
 function capabilityAvailable(
-  settings: Pick<AiSettings, 'media' | 'gskToolsEnabled'> | null | undefined,
-  gskLoggedIn: boolean,
+  settings: Pick<AiSettings, 'media'> | null | undefined,
   capability: MediaCapability,
 ): boolean {
-  if (!settings) return gskLoggedIn
+  if (!settings) return false
   const model = byokModel(settings, capability)
-  if (model !== null) return model !== ''
-  return gskLoggedIn && settings.gskToolsEnabled !== false
+  return model !== null && model !== ''
 }
 
-/** live predicate for the generate_image tool: BYOK image model configured, or gsk login + cloud tools on */
+/** live predicate for the generate_image tool: a BYOK image model is configured */
 export function imageGenerationAvailable(
-  settings: Pick<AiSettings, 'media' | 'gskToolsEnabled'> | null | undefined,
-  gskLoggedIn: boolean,
+  settings: Pick<AiSettings, 'media'> | null | undefined,
 ): boolean {
-  return capabilityAvailable(settings, gskLoggedIn, 'image')
+  return capabilityAvailable(settings, 'image')
 }
 
 /** live predicate for the analyze_media tool: image analysis or video analysis reachable */
 export function mediaAnalysisAvailable(
-  settings: Pick<AiSettings, 'media' | 'gskToolsEnabled'> | null | undefined,
-  gskLoggedIn: boolean,
+  settings: Pick<AiSettings, 'media'> | null | undefined,
 ): boolean {
-  return (
-    capabilityAvailable(settings, gskLoggedIn, 'analysis') ||
-    capabilityAvailable(settings, gskLoggedIn, 'video')
-  )
+  return capabilityAvailable(settings, 'analysis') || capabilityAvailable(settings, 'video')
 }
 
 export function videoAnalysisAvailable(
-  settings: Pick<AiSettings, 'media' | 'gskToolsEnabled'> | null | undefined,
-  gskLoggedIn: boolean,
+  settings: Pick<AiSettings, 'media'> | null | undefined,
 ): boolean {
-  return capabilityAvailable(settings, gskLoggedIn, 'video')
+  return capabilityAvailable(settings, 'video')
 }

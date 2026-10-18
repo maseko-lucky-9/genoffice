@@ -46,10 +46,4 @@ describe('requestConfigError', () => {
     expect(requestConfigError('custom', config('', 'm', base))).toBe('no-key')
     expect(requestConfigError('custom', config('resolved', 'm', base))).toBeNull()
   })
-
-  it('keeps Genspark on its injected key and a model', () => {
-    expect(requestConfigError('genspark', config('', 'claude-opus-5-5'))).toBe('no-key')
-    expect(requestConfigError('genspark', config('gsk', ''))).toBe('no-model')
-    expect(requestConfigError('genspark', config('gsk', 'claude-opus-5-5'))).toBeNull()
-  })
 })

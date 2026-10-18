@@ -2,7 +2,7 @@
 
 ## Einstellungen öffnen
 
-Die Kontenzeile unten links auf der Startseite öffnet den Einstellungsbereich (wenn Sie abgemeldet sind, steht dort „Anmelden“). Er hat sechs Abschnitte: Konto, KI-Modell, KI-Medien & Suche, Allgemein, Integrationen und Über.
+Die Zeile unten links auf der Startseite öffnet den Einstellungsbereich. Er hat fünf Abschnitte: KI-Modell, KI-Medien & Suche, Allgemein, Integrationen und Über.
 
 ![Einstellungen ▸ Allgemein, wo Sprache, Design, AutoSave und der Schalter für die Nutzungsstatistik liegen](img/settings-general.png)
 
@@ -45,12 +45,6 @@ Die Einstellungen können GenOffice als Programm für .docx / .xlsx / .pptx / .p
 
 - Hilfe ▸ Hinweise zu Drittanbietersoftware: das vollständige Verzeichnis der mitgelieferten Open-Source-Lizenzen.
 - Hilfe ▸ Nach Updates suchen: löst eine manuelle Prüfung aus; bei einer neueren Version werden Sie zur Installation aufgefordert.
-
-## Bei Genspark anmelden
-
-- Der Anmeldeeinstieg (Einstellungen oder Liste der Cloud-Projekte) nutzt ein **Gerätecode**-Verfahren: GenOffice zeigt einen Code und öffnet die Anmeldung im Browser; danach geht es automatisch weiter.
-- Die Anmeldung wird nur genutzt für: die Liste der Cloud-Projekte und die gehosteten Modelle von Genspark. Ohne sie funktionieren alle lokalen Funktionen und benutzerdefinierten Modelle weiter.
-- Das Abmelden ist in den Einstellungen ein Klick.
 
 ## MCP-Integration (für erfahrene Anwender / KI-Clients)
 

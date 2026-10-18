@@ -1,6 +1,6 @@
 # 安裝 GenOffice
 
-每個版本都發布在 [Releases 頁面](https://github.com/genspark-ai/genoffice/releases/latest)。它們全部出自 `main`；macOS 與 Windows 的安裝程式已簽署。
+每個版本都發布在 [Releases 頁面](https://github.com/maseko-lucky-9/genoffice/releases/latest)。它們全部出自 `main`；macOS 與 Windows 的安裝程式已簽署。
 
 ## 選擇適合你電腦的檔案
 

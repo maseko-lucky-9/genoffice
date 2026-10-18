@@ -1,6 +1,6 @@
 # GenOffice इंस्टॉल करना
 
-हर बिल्ड [Releases पेज](https://github.com/genspark-ai/genoffice/releases/latest) पर प्रकाशित होता है। सभी `main` से बनी होती हैं; और macOS तथा Windows के इंस्टॉलर हस्ताक्षरित होते हैं।
+हर बिल्ड [Releases पेज](https://github.com/maseko-lucky-9/genoffice/releases/latest) पर प्रकाशित होता है। सभी `main` से बनी होती हैं; और macOS तथा Windows के इंस्टॉलर हस्ताक्षरित होते हैं।
 
 ## अपने मशीन के लिए फ़ाइल चुनें
 

@@ -25,9 +25,7 @@ async function tempRoot(): Promise<string> {
 describe('generated-page temp sweep', () => {
   it('removes only expired .pptx files matching the UUID pattern', async () => {
     const root = await tempRoot()
-    const cloudDir = join(root, 'genoffice-cloud-pages')
     const localDir = join(root, 'genoffice-local-pages')
-    await mkdir(cloudDir, { recursive: true })
     await mkdir(localDir, { recursive: true })
 
     // Create specific UUIDs we can reference
@@ -35,7 +33,7 @@ describe('generated-page temp sweep', () => {
     const expiredUuid2 = randomUUID()
     const recentUuid = randomUUID()
 
-    const expiredOwned1 = join(cloudDir, `${expiredUuid1}.pptx`)
+    const expiredOwned1 = join(localDir, `${expiredUuid1}.pptx`)
     const expiredOwned2 = join(localDir, `${expiredUuid2}.pptx`)
     const recentOwned = join(localDir, `${recentUuid}.pptx`)
     const arbitrary = join(localDir, 'random-file.txt')
@@ -70,9 +68,9 @@ describe('generated-page temp sweep', () => {
 
   it('skips directories and non-.pptx files', async () => {
     const root = await tempRoot()
-    await mkdir(join(root, 'genoffice-cloud-pages'), { recursive: true })
+    await mkdir(join(root, 'genoffice-local-pages'), { recursive: true })
 
-    const dirLike = join(root, 'genoffice-cloud-pages', 'not-a-file')
+    const dirLike = join(root, 'genoffice-local-pages', 'not-a-file')
     await mkdir(dirLike, { recursive: true })
     await writeFile(join(dirLike, 'notes.txt'), 'notes')
     await writeFile(join(dirLike, 'data.json'), '{}')
@@ -91,7 +89,7 @@ describe('generated-page temp sweep', () => {
 
   it('swallows per-file errors and continues', async () => {
     const root = await tempRoot()
-    await mkdir(join(root, 'genoffice-cloud-pages'), { recursive: true })
+    await mkdir(join(root, 'genoffice-local-pages'), { recursive: true })
 
     // We can't easily simulate a permission error on Windows,
     // but the function should never throw

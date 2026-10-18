@@ -123,10 +123,10 @@ describe('vision capability fallback', () => {
   })
 
   it('does not send screenshots to text-only models under a vision-capable provider', () => {
-    const settings = defaultAiSettings()
-    settings.providers.genspark.model = 'deep-seek-v4-flash'
+    const settings = { ...defaultAiSettings(), provider: 'openrouter' as const }
+    settings.providers.openrouter.model = 'deep-seek-v4-flash'
     expect(settingsSupportVision(settings)).toBe(false)
-    settings.providers.genspark.model = 'claude-opus-4-7'
+    settings.providers.openrouter.model = 'claude-opus-4-7'
     expect(settingsSupportVision(settings)).toBe(true)
   })
 

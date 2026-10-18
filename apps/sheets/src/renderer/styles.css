@@ -2191,19 +2191,6 @@ button.check-item:hover {
   box-shadow: var(--sheets-shadow-badge);
 }
 
-/* Genspark brand logo (shared by the collapse button and the AI panel title) */
-.genspark-badge {
-  display: block;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-}
-
-.ai-panel-title .genspark-badge {
-  width: 18px;
-  height: 18px;
-}
-
 .ai-panel-header-actions {
   display: flex;
   align-items: center;
@@ -5712,21 +5699,6 @@ textarea:focus {
 
 .ai-retry-btn:hover {
   background: var(--sheets-ai-error-bg);
-}
-
-.ai-login-btn {
-  margin-top: 8px;
-  border: 1px solid var(--accent);
-  border-radius: 6px;
-  background: var(--accent);
-  padding: 4px 14px;
-  font-size: 13px;
-  color: var(--sheets-on-accent);
-  cursor: pointer;
-}
-
-.ai-login-btn:hover {
-  opacity: 0.88;
 }
 
 /* ================= transient toast (save feedback) ================= */

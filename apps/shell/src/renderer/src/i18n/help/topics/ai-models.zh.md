@@ -6,7 +6,7 @@
 
 ![设置窗口](img/settings-general.png)
 
-- **Genspark 官方**：登录 Genspark 账号（设备码流程）即可用，免配置。
+- **Claude Code**（默认）：使用本机已登录的命令行工具 `claude`，GenOffice 中无需 API 密钥。
 - **自定义端点（BYOK）**：设置 ▸ AI 里为每家协议填 base URL 与 API key——OpenAI 兼容、Anthropic、Gemini、DeepSeek、DashScope(qwen) 等。key 存在本机的应用设置文件里，发送时只进请求头。 Atlas Cloud 也在内置协议之列。
 - 每类能力可选不同模型：对话/生成、图像生成、图像理解（看图）。
 - **连接测试**：保存前可测试端点连通与模型可见性。

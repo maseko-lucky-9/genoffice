@@ -6,7 +6,7 @@ Modelle und Schlüssel werden in den Einstellungen konfiguriert (die Kontenzeile
 
 ![Das Einstellungsfenster](img/settings-general.png)
 
-- **Genspark gehostet**: anmelden (Gerätecode-Verfahren) und loslegen — ganz ohne Konfiguration.
+- **Claude Code** (Standard): nutzt das bereits angemeldete Kommandozeilenwerkzeug `claude` auf diesem Rechner — kein API-Schlüssel in GenOffice.
 - **Eigene Endpunkte (BYOK)**: Einstellungen ▸ KI erwartet eine Basis-URL und einen API-Schlüssel pro Protokoll — OpenAI-kompatibel, Anthropic, Gemini, DeepSeek, DashScope (qwen) und mehr. Schlüssel werden in der Einstellungsdatei der App auf diesem Rechner gespeichert und nur in den Anfrage-Headern gesendet. Atlas Cloud gehört zu den eingebauten Protokollen.
 - Je nach Fähigkeit lässt sich ein anderes Modell wählen: Chat/Erzeugung, Bilderzeugung, Bildanalyse.
 - **Verbindung testen**: prüft die Erreichbarkeit des Endpunkts und die Sichtbarkeit des Modells, bevor gespeichert wird.

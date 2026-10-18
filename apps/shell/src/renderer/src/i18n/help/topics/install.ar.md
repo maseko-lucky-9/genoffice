@@ -1,6 +1,6 @@
 # تثبيت GenOffice
 
-كل نسخة منشورة على [صفحة الإصدارات](https://github.com/genspark-ai/genoffice/releases/latest). وجميعها مبنية من `main`؛ وحزّامات التثبيت لنظامي macOS وWindows موقّعة.
+كل نسخة منشورة على [صفحة الإصدارات](https://github.com/maseko-lucky-9/genoffice/releases/latest). وجميعها مبنية من `main`؛ وحزّامات التثبيت لنظامي macOS وWindows موقّعة.
 
 ## اختر الملف المناسب لجهازك
 
