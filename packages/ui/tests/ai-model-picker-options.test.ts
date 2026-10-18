@@ -7,31 +7,37 @@ import {
 } from '../src/ai-model-picker-options'
 
 const anthropicModels = AI_PROVIDERS.find((m) => m.id === 'anthropic')!.models
+/** keyless and shipped with a default model, so it is listed out of the box */
+const claudeCodeGroup = {
+  id: 'claude-code',
+  label: 'Claude Code',
+  models: ['opus', 'sonnet', 'haiku'],
+}
 
 describe('aiModelPickerGroups', () => {
-  it('lists nothing while signed out with no keys', () => {
-    expect(aiModelPickerGroups(defaultAiSettings(), false)).toEqual([])
+  it('lists only the keyless Claude Code CLI while signed out with no keys', () => {
+    expect(aiModelPickerGroups(defaultAiSettings(), false)).toEqual([claudeCodeGroup])
   })
 
-  it('lists Genspark only when signed in', () => {
+  it('adds Genspark only when signed in', () => {
     const ids = aiModelPickerGroups(defaultAiSettings(), true).map((g) => g.id)
-    expect(ids).toEqual(['genspark'])
+    expect(ids).toEqual(['genspark', 'claude-code'])
   })
 
   it('adds a vendor once its key is set and puts an off-catalog model first', () => {
     const settings = defaultAiSettings()
     settings.providers.anthropic = { apiKey: 'k', model: 'claude-next' }
     const groups = aiModelPickerGroups(settings, false)
-    expect(groups.map((g) => g.id)).toEqual(['anthropic'])
-    expect(groups[0]!.models).toEqual(['claude-next', ...anthropicModels])
+    expect(groups.map((g) => g.id)).toEqual(['claude-code', 'anthropic'])
+    expect(groups[1]!.models).toEqual(['claude-next', ...anthropicModels])
   })
 
   it('needs a base URL for custom endpoints', () => {
     const settings = defaultAiSettings()
     settings.providers.custom = { apiKey: '', model: 'llama', baseUrl: '' }
-    expect(aiModelPickerGroups(settings, false)).toEqual([])
+    expect(aiModelPickerGroups(settings, false)).toEqual([claudeCodeGroup])
     settings.providers.custom = { apiKey: '', model: 'llama', baseUrl: 'http://localhost:11434/v1' }
-    expect(aiModelPickerGroups(settings, false).map((g) => g.id)).toEqual(['custom'])
+    expect(aiModelPickerGroups(settings, false).map((g) => g.id)).toEqual(['claude-code', 'custom'])
   })
 })
 
@@ -62,11 +68,19 @@ describe('selection round trip', () => {
 describe('CLI vendors', () => {
   it('lists Codex only after the settings page stored a path or model', () => {
     const settings = defaultAiSettings()
-    expect(aiModelPickerGroups(settings, false)).toEqual([])
+    expect(aiModelPickerGroups(settings, false)).toEqual([claudeCodeGroup])
     settings.providers.codex = { apiKey: '', model: '', cliPath: '/usr/local/bin/codex' }
     expect(aiModelPickerGroups(settings, false)).toEqual([
       { id: 'codex', label: 'Codex CLI', models: [] },
+      claudeCodeGroup,
     ])
+  })
+
+  it('lists Claude Code from its shipped default model and selects it keyless', () => {
+    const settings = defaultAiSettings()
+    const next = withAiModelSelection(settings, { provider: 'claude-code', model: 'opus' })
+    expect(next.providers['claude-code'].apiKey).toBe('')
+    expect(aiModelPickerSelection(next)).toEqual({ provider: 'claude-code', model: 'opus' })
   })
 })
 
@@ -97,6 +111,7 @@ describe('custom endpoints', () => {
   it('lists one group per configured endpoint with its cached models', () => {
     const groups = aiModelPickerGroups(settings(), false)
     expect(groups).toEqual([
+      claudeCodeGroup,
       { id: 'custom', endpoint: 'a', label: 'Ollama', models: ['llama3'] },
       { id: 'custom', endpoint: 'b', label: 'gw.example.com', models: ['gpt-x', 'gpt-y'] },
     ])

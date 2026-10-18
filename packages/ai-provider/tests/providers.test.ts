@@ -27,6 +27,29 @@ describe('defaultAiSettings', () => {
     expect(settings.providers.anthropic.baseUrl).toBeUndefined()
   })
 
+  it('ships Claude Code as a keyless CLI provider with subscription model aliases', () => {
+    const meta = AI_PROVIDERS.find((provider) => provider.id === 'claude-code')
+    expect(meta).toEqual({
+      id: 'claude-code',
+      label: 'Claude Code',
+      models: ['opus', 'sonnet', 'haiku'],
+      defaultModel: 'sonnet',
+      keyPlaceholder: '',
+      needsCliPath: true,
+    })
+    const ids = AI_PROVIDERS.map((provider) => provider.id)
+    expect(ids.indexOf('claude-code')).toBe(ids.indexOf('codex') + 1)
+    const settings = defaultAiSettings()
+    expect(settings.providers['claude-code']).toEqual({
+      apiKey: '',
+      model: 'sonnet',
+      baseUrl: undefined,
+      cliPath: '',
+    })
+    settings.provider = 'claude-code'
+    expect(activeProvider(settings)).toBe('claude-code')
+  })
+
   it('applies caller-supplied default keys only to the listed providers', () => {
     const settings = defaultAiSettings({ anthropic: 'sk-ant-preset' })
     expect(settings.providers.anthropic.apiKey).toBe('sk-ant-preset')

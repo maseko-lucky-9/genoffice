@@ -3,6 +3,7 @@ import type { AgentMessage, AgentToolCall, AgentToolDef } from '@genoffice/agent
 export type AiProviderId =
   | 'genspark'
   | 'codex'
+  | 'claude-code'
   | 'anthropic'
   | 'gemini'
   | 'deepseek'
@@ -39,7 +40,7 @@ export interface AiProviderConfig {
   model: string
   /** required for custom; for other direct providers it overrides the default endpoint (regional mirrors) */
   baseUrl?: string | undefined
-  /** optional Codex CLI override; empty means auto-detect the current authenticated install */
+  /** optional CLI override (Codex, Claude Code); empty means auto-detect the current authenticated install */
   cliPath?: string | undefined
   /** the declarative profile of the active user-hosted endpoint (custom only) */
   profile?: AiCustomProfile | undefined

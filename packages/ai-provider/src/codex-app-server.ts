@@ -240,7 +240,7 @@ async function newestManagedCodex(root: string, platform: NodeJS.Platform): Prom
  * Finder/Dock-launched Electron inherits a minimal PATH, so the directories
  * npm, Homebrew and version managers install into are probed explicitly.
  */
-async function commonUnixBinDirs(env: NodeJS.ProcessEnv): Promise<string[]> {
+export async function commonUnixBinDirs(env: NodeJS.ProcessEnv): Promise<string[]> {
   const home = env.HOME ?? ''
   const dirs = ['/opt/homebrew/bin', '/usr/local/bin']
   if (home) {
@@ -258,12 +258,14 @@ async function commonUnixBinDirs(env: NodeJS.ProcessEnv): Promise<string[]> {
   return dirs
 }
 
-async function codexOnPath(
+/** The first `name` executable on PATH, then (off Windows) in the common install dirs. */
+export async function executableOnPath(
+  name: string,
   platform: NodeJS.Platform,
   env: NodeJS.ProcessEnv,
 ): Promise<string | null> {
   const pathValue = env.PATH ?? env.Path ?? env.path ?? ''
-  const names = platform === 'win32' ? ['codex.exe'] : ['codex']
+  const names = platform === 'win32' ? [`${name}.exe`] : [name]
   const directories = pathValue ? pathValue.split(platform === 'win32' ? ';' : delimiter) : []
   if (platform !== 'win32') directories.push(...(await commonUnixBinDirs(env)))
   for (const directory of directories) {
@@ -318,7 +320,7 @@ export async function resolveCodexCliPath(
     const managed = await newestManagedCodex(managedRoot, platform)
     if (managed) return managed
   }
-  const fromPath = await codexOnPath(platform, env)
+  const fromPath = await executableOnPath('codex', platform, env)
   if (fromPath) return fromPath
   throw new Error(
     'Codex CLI was not found automatically. Install or open the Codex app, or set a custom codex executable path.',
@@ -673,11 +675,13 @@ export function codexAppServerOutputSchema(tools: AgentToolDef[]): Record<string
   }
 }
 
+/** `backend` names the model's own tool set, which the prompt tells it not to use. */
 export function buildCodexAppServerPrompt(
   system: string,
   messages: AgentMessage[],
   tools: AgentToolDef[],
   maxTokens: number,
+  backend = 'Codex',
 ): string {
   const payload = {
     system,
@@ -690,7 +694,7 @@ export function buildCodexAppServerPrompt(
   }
   return [
     'Treat the payload below as the new GenOffice conversation events for this turn and follow its system instruction.',
-    'Do not use Codex tools. GenOffice will execute only the tool calls returned in the required response schema.',
+    `Do not use ${backend} tools. GenOffice will execute only the tool calls returned in the required response schema.`,
     'Put user-visible prose in text. Put requested GenOffice tool calls in toolCalls; inputJson must be a JSON-encoded object matching the listed inputSchema. Use only listed tool names. If no tool is needed, return an empty toolCalls array.',
     `Keep this one-turn response within roughly ${maxTokens} output tokens.`,
     '<genoffice_payload>',
@@ -699,11 +703,14 @@ export function buildCodexAppServerPrompt(
   ].join('\n')
 }
 
+/** `backend` labels the errors; its kebab-case form ('codex-app-server') labels the budget errors. */
 export function parseCodexAppServerTurn(
   raw: string,
   tools: AgentToolDef[],
+  backend = 'Codex app-server',
 ): { text: string; toolCalls: AgentToolCall[] } {
   let parsed: CodexAppServerTurn
+  const budgetLabel = backend.toLowerCase().replace(/ /g, '-')
   const trimmed = raw
     .trim()
     .replace(/^```(?:json)?\s*/i, '')
@@ -712,28 +719,28 @@ export function parseCodexAppServerTurn(
     parsed = JSON.parse(trimmed) as CodexAppServerTurn
   } catch (error) {
     throw new Error(
-      `Codex app-server returned an invalid structured response: ${error instanceof Error ? error.message : String(error)}`,
+      `${backend} returned an invalid structured response: ${error instanceof Error ? error.message : String(error)}`,
       { cause: error },
     )
   }
   if (!parsed || typeof parsed !== 'object' || typeof parsed.text !== 'string') {
-    throw new Error('Codex app-server returned a response with an invalid text field')
+    throw new Error(`${backend} returned a response with an invalid text field`)
   }
   if (!Array.isArray(parsed.toolCalls)) {
-    throw new Error('Codex app-server returned a response with an invalid toolCalls field')
+    throw new Error(`${backend} returned a response with an invalid toolCalls field`)
   }
   const names = new Set(tools.map((tool) => tool.name))
   // the response schema only caps an empty tool list, so cap the parsed turn here
-  throwIfToolCountOverBudget(parsed.toolCalls.length, 'codex-app-server')
+  throwIfToolCountOverBudget(parsed.toolCalls.length, budgetLabel)
   const toolCalls = parsed.toolCalls.map((call): AgentToolCall => {
     if (!call || typeof call !== 'object' || typeof call.name !== 'string') {
-      throw new Error('Codex app-server returned an invalid tool call')
+      throw new Error(`${backend} returned an invalid tool call`)
     }
     if (!names.has(call.name)) {
-      throw new Error(`Codex app-server requested an unknown tool: ${call.name}`)
+      throw new Error(`${backend} requested an unknown tool: ${call.name}`)
     }
     const inputJson = typeof call.inputJson === 'string' ? call.inputJson : ''
-    throwIfToolJsonOverBudget(inputJson.length, 'codex-app-server')
+    throwIfToolJsonOverBudget(inputJson.length, budgetLabel)
     const { input, error } = parseToolInput(inputJson)
     return {
       id: typeof call.id === 'string' && call.id ? call.id : `codex-${randomUUID()}`,
@@ -743,7 +750,7 @@ export function parseCodexAppServerTurn(
     }
   })
   if (!parsed.text && toolCalls.length === 0) {
-    throw new Error('Codex app-server returned no content')
+    throw new Error(`${backend} returned no content`)
   }
   return { text: parsed.text, toolCalls }
 }

@@ -14,12 +14,13 @@ import type { AiProviderConfig, AiProviderId, AiProviderMeta } from './types'
 export { normalizeBaseUrl } from './url-compose'
 export { modelEchoesReasoning, modelHasFixedSampling, modelLacksVision } from './model-heuristics'
 
-/** Wire protocols every provider maps onto, including the official Codex app-server bridge. */
-export type AiProtocol = 'anthropic' | 'gemini' | 'openai-compatible' | 'codex-app-server'
+/** Wire protocols every provider maps onto, including the Codex and Claude Code CLI bridges. */
+export type AiProtocol =
+  'anthropic' | 'gemini' | 'openai-compatible' | 'codex-app-server' | 'claude-cli'
 
 export interface ProviderCapabilities {
-  /** How the provider authenticates: app login, user key, or the Codex CLI's existing login. */
-  auth: 'gsk-login' | 'api-key' | 'codex-chatgpt'
+  /** How the provider authenticates: app login, user key, or a local CLI's existing login. */
+  auth: 'gsk-login' | 'api-key' | 'codex-chatgpt' | 'claude-cli'
   /** chat models accept image input (declarative; for custom endpoints it is assumed, not known) */
   vision: boolean
 }
@@ -142,6 +143,14 @@ export const AI_PROVIDER_ADAPTERS: Record<AiProviderId, ProviderAdapter> = {
     capabilities: { auth: 'codex-chatgpt', vision: true },
     resolveEndpoint() {
       return { protocol: 'codex-app-server', baseUrl: '' }
+    },
+  },
+  'claude-code': {
+    meta: metaOf('claude-code'),
+    // the headless CLI takes text on stdin; images would need its stream-json input
+    capabilities: { auth: 'claude-cli', vision: false },
+    resolveEndpoint() {
+      return { protocol: 'claude-cli', baseUrl: '' }
     },
   },
   anthropic: {

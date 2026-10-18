@@ -2,6 +2,7 @@ import { chatAnthropic } from './protocols/anthropic'
 import { chatGemini } from './protocols/gemini'
 import { chatOpenAiCompatible } from './protocols/openai-compatible'
 import { ResponseBodyTooLargeError } from './protocols/shared'
+import { chatClaudeCli } from './claude-cli'
 import { chatCodexAppServer } from './codex-app-server'
 import { getProviderAdapter, type ResolvedEndpoint } from './registry'
 import type { AiChatResponse, AiProviderConfig, AiProviderId } from './types'
@@ -33,6 +34,8 @@ export async function chatForProvider(
     switch (endpoint.protocol) {
       case 'codex-app-server':
         return chatCodexAppServer(config, system, user, wd.signal)
+      case 'claude-cli':
+        return chatClaudeCli(config, system, user, wd.signal)
       case 'anthropic':
         return chatAnthropic(wd, config, system, user, endpoint.baseUrl, {
           headers: endpoint.headers,

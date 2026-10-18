@@ -51,6 +51,16 @@ describe('sanitizeAiSettings', () => {
     expect(sanitized!.maxOutputTokens).toBe(4096)
   })
 
+  it('accepts a Claude Code selection with its keyless config', () => {
+    const sanitized = sanitizeAiSettings({
+      provider: 'claude-code',
+      providers: { 'claude-code': { apiKey: '', model: 'sonnet', cliPath: '' } },
+    })
+    expect(sanitized).not.toBeNull()
+    expect(sanitized!.provider).toBe('claude-code')
+    expect(sanitized!.providers['claude-code']).toEqual({ apiKey: '', model: 'sonnet' })
+  })
+
   it('rejects payloads that are not the right shape at all', () => {
     for (const bad of [
       null,
