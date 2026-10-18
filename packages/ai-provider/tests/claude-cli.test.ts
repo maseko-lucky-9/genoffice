@@ -272,6 +272,15 @@ describe('claudeCliArgs', () => {
   it('does not tell Claude about Codex', () => {
     expect(CLAUDE_BASE_INSTRUCTIONS).not.toMatch(/codex/i)
   })
+
+  // --json-schema runs a StructuredOutput tool loop; without this Claude calls the
+  // listed GenOffice tools directly, gets "No such tool available" and reports the
+  // tools as unavailable (Slides e2e: 4 of 6 replays failed, 0 of 6 with this text)
+  it('tells Claude the GenOffice tools are only reachable through toolCalls', () => {
+    expect(CLAUDE_BASE_INSTRUCTIONS).toMatch(/not callable tools/)
+    expect(CLAUDE_BASE_INSTRUCTIONS).toMatch(/only callable tool is StructuredOutput/)
+    expect(CLAUDE_BASE_INSTRUCTIONS).toMatch(/list it in toolCalls/)
+  })
 })
 
 describe('claudeCliEnv', () => {
