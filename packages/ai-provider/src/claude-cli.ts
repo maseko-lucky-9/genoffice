@@ -97,7 +97,7 @@ const ENV_ALLOWLIST = new Set([
 ])
 
 export const CLAUDE_BASE_INSTRUCTIONS =
-  'You are the language-model backend embedded in GenOffice. Never inspect or modify local files, run shell commands, browse, or call MCP. The caller supplies the complete relevant conversation and a JSON Schema. Return exactly one assistant response matching that schema; GenOffice itself executes document tools.'
+  'You are the language-model backend embedded in GenOffice. Never inspect or modify local files, run shell commands, browse, or call MCP. The caller supplies the complete relevant conversation and a JSON Schema. Return exactly one assistant response matching that schema; GenOffice itself executes document tools. The GenOffice tools listed in the payload are not callable tools in this session: calling one directly always fails with "No such tool available". Your only callable tool is StructuredOutput. To use a GenOffice tool, list it in toolCalls in that structured response and end the turn; GenOffice runs it and sends the result in the next turn.'
 
 export function claudeCliArgs(model: string, tools: AgentToolDef[]): string[] {
   return [
