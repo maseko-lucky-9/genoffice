@@ -110,11 +110,16 @@ export function sanitizeCliPath(raw: unknown): string | undefined {
 
 function sanitizeMediaSettings(raw: Record<string, unknown>): AiSettings['media'] {
   const media = { ...raw } as unknown as NonNullable<AiSettings['media']>
+  // a removed provider must not be written back; resolveAiSettings fills the defaults
+  for (const key of ['imageProvider', 'analysisProvider', 'videoAnalysisProvider'] as const) {
+    if ((media[key] as string | undefined) === 'genspark') delete media[key]
+  }
   if (typeof raw.providers !== 'object' || raw.providers === null || Array.isArray(raw.providers)) {
     return media
   }
   const providers: Record<string, unknown> = {}
   for (const [id, value] of Object.entries(raw.providers as Record<string, unknown>)) {
+    if (id === 'genspark') continue
     if (typeof value !== 'object' || value === null || Array.isArray(value)) continue
     const config = { ...(value as Record<string, unknown>) }
     if (config.baseUrl !== undefined && config.baseUrl !== null && config.baseUrl !== '') {

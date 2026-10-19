@@ -91,4 +91,12 @@ describe('legacy Genspark settings migration', () => {
     expect(sanitized!.providers).not.toHaveProperty('genspark')
     expect(sanitized!.providers.anthropic!.apiKey).toBe('sk-ant')
   })
+
+  it('sanitizeAiSettings does not write genspark media settings back to disk', () => {
+    const media = sanitizeAiSettings(legacyGensparkFile())!.media!
+    expect(media.providers).not.toHaveProperty('genspark')
+    expect(media.imageProvider).not.toBe('genspark')
+    expect(media.analysisProvider).not.toBe('genspark')
+    expect(media.videoAnalysisProvider).not.toBe('genspark')
+  })
 })
