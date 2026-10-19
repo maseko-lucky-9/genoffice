@@ -445,6 +445,8 @@ function AiModelPane({ t }: { t: TFunc }) {
   }
   const isGenspark = provider === 'genspark'
   const isCodex = provider === 'codex'
+  // Claude Code runs on the CLI's own login: no key, URL or Codex controls.
+  const isKeylessCli = !isCodex && Boolean(meta?.needsCliPath)
 
   const touch = () => {
     setDirty(true)
@@ -632,9 +634,11 @@ function AiModelPane({ t }: { t: TFunc }) {
           onPick={(v) => selectProvider(v as AiSettings['provider'])}
         />
       </div>
-      <div className="set-field-desc set-ai-note">
-        {isGenspark ? t('setAiGensparkHint') : isCodex ? t('setAiCodexHint') : t('setAiByokNote')}
-      </div>
+      {!isKeylessCli && (
+        <div className="set-field-desc set-ai-note">
+          {isGenspark ? t('setAiGensparkHint') : isCodex ? t('setAiCodexHint') : t('setAiByokNote')}
+        </div>
+      )}
       {meta?.needsBaseUrl && (
         <>
           <div className="set-field">
@@ -736,7 +740,7 @@ function AiModelPane({ t }: { t: TFunc }) {
             }}
           />
         </div>
-      ) : !isGenspark ? (
+      ) : !isGenspark && !isKeylessCli ? (
         <>
           <div className="set-field">
             <div className="set-field-text">

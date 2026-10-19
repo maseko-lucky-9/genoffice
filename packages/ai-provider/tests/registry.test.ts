@@ -315,11 +315,25 @@ describe('provider registry', () => {
   })
 
   it('only genspark authenticates through the gsk login', () => {
+    const cliAuth: Record<string, string> = { codex: 'codex-chatgpt', 'claude-code': 'claude-cli' }
     for (const [id, adapter] of Object.entries(AI_PROVIDER_ADAPTERS)) {
       expect(adapter.capabilities.auth).toBe(
-        id === 'genspark' ? 'gsk-login' : id === 'codex' ? 'codex-chatgpt' : 'api-key',
+        id === 'genspark' ? 'gsk-login' : (cliAuth[id] ?? 'api-key'),
       )
     }
+  })
+
+  it('routes Claude Code to the local CLI bridge, text only', () => {
+    const adapter = AI_PROVIDER_ADAPTERS['claude-code']
+    expect(adapter.capabilities).toEqual({ auth: 'claude-cli', vision: false })
+    expect(adapter.resolveEndpoint({ apiKey: '', model: 'sonnet' })).toEqual({
+      protocol: 'claude-cli',
+      baseUrl: '',
+    })
+    expect(adapter.resolveEndpoint({ apiKey: '', model: '', cliPath: '' })).toEqual({
+      protocol: 'claude-cli',
+      baseUrl: '',
+    })
   })
 
   it('routes Codex to the auto-discovered local process bridge', () => {

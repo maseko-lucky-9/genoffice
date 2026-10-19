@@ -2,7 +2,13 @@ import { normalizeCustomProfile } from './custom-profile'
 import { resolveCustomEndpoints } from './custom-endpoints'
 import { defaultAiMediaSettings, resolveAiMediaSettings } from './media'
 import { defaultAiSearchSettings, resolveAiSearchSettings } from './search-settings'
-import type { AiProviderId, AiProviderMeta, AiSettings, LegacyAiSettings } from './types'
+import type {
+  AiProviderConfig,
+  AiProviderId,
+  AiProviderMeta,
+  AiSettings,
+  LegacyAiSettings,
+} from './types'
 
 /**
  * Genspark server-side LLM proxy endpoints. All three protocols share the
@@ -75,6 +81,16 @@ export const AI_PROVIDERS: AiProviderMeta[] = [
     // the CLI select the account's current default without a stale hardcode.
     models: [],
     defaultModel: '',
+    keyPlaceholder: '',
+    needsCliPath: true,
+  },
+  {
+    id: 'claude-code',
+    label: 'Claude Code',
+    // The local `claude` CLI on its subscription login; the aliases resolve to
+    // the account's current model of each tier.
+    models: ['opus', 'sonnet', 'haiku'],
+    defaultModel: 'sonnet',
     keyPlaceholder: '',
     needsCliPath: true,
   },
@@ -484,6 +500,27 @@ export function activeProvider(settings: AiSettings): AiProviderId {
   }
   if (!config.apiKey?.trim()) return 'genspark'
   return provider
+}
+
+/**
+ * What a request config still lacks before it can be sent. CLI providers bring
+ * their own login and default model; a custom endpoint (Ollama, LM Studio) may
+ * be anonymous but must name a model (and needs the key its apiKeyEnv names);
+ * every other vendor needs a key and a model. Genspark's key is injected from
+ * the gsk login before this check.
+ */
+export function requestConfigError(
+  provider: AiProviderId,
+  config: AiProviderConfig | undefined,
+): 'no-key' | 'no-model' | null {
+  const meta = AI_PROVIDERS.find((m) => m.id === provider)
+  if (meta?.needsCliPath) return null
+  if (!config) return 'no-key'
+  // a named apiKeyEnv the main process could not resolve is a missing key, not an anonymous endpoint
+  const keyRequired = !meta?.needsBaseUrl || Boolean(config.profile?.apiKeyEnv)
+  if (keyRequired && !config.apiKey) return 'no-key'
+  if (!config.model) return 'no-model'
+  return null
 }
 
 /**

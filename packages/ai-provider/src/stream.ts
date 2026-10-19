@@ -3,6 +3,7 @@ import { withOutputCapFallback } from './output-cap'
 import { streamAnthropic } from './protocols/anthropic'
 import { streamGemini } from './protocols/gemini'
 import { streamOpenAiCompatible } from './protocols/openai-compatible'
+import { streamClaudeCli } from './claude-cli'
 import { streamCodexAppServer } from './codex-app-server'
 import type { StreamCallbacks } from './protocols/shared'
 import { getProviderAdapter, type AiProtocol } from './registry'
@@ -30,10 +31,13 @@ export async function streamForProvider(
   if (endpoint.protocol === 'codex-app-server') {
     return streamCodexAppServer(config, system, messages, tools, maxTokens, cb)
   }
+  if (endpoint.protocol === 'claude-cli') {
+    return streamClaudeCli(config, system, messages, tools, maxTokens, cb)
+  }
   // A model the user declared a ceiling for outranks the caller's budget; the
   // endpoint's own 400 would otherwise cost a billed round trip.
   const cap = endpoint.maxTokens !== undefined ? Math.min(maxTokens, endpoint.maxTokens) : maxTokens
-  const protocol: Exclude<AiProtocol, 'codex-app-server'> = endpoint.protocol
+  const protocol: Exclude<AiProtocol, 'codex-app-server' | 'claude-cli'> = endpoint.protocol
   return withOutputCapFallback(baseUrl, config.model, cap, (tokens) => {
     switch (protocol) {
       case 'anthropic':

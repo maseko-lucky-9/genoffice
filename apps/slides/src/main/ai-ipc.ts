@@ -27,6 +27,7 @@ import {
   sanitizeAiSettings,
   setAiUserAgent,
   setRescueFetch,
+  requestConfigError,
   resolveProfileCredential,
   streamForProvider,
   type AiSettings,
@@ -199,7 +200,8 @@ export function registerAiIpc(): void {
     const send = (chunk: AiStreamChunk) => {
       if (!event.sender.isDestroyed()) event.sender.send('ai:stream-chunk', chunk)
     }
-    if (!config || (provider !== 'codex' && !config.apiKey)) {
+    const configError = requestConfigError(provider, config)
+    if (!config || configError === 'no-key') {
       send({
         requestId,
         type: 'error',
@@ -207,7 +209,7 @@ export function registerAiIpc(): void {
       })
       return
     }
-    if (provider !== 'codex' && !config.model) {
+    if (configError === 'no-model') {
       send({ requestId, type: 'error', error: tm('errNoModel') })
       return
     }
