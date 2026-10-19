@@ -6,12 +6,6 @@ import type {
 } from './types'
 
 export const AI_SEARCH_PROVIDERS: AiSearchProviderMeta[] = [
-  {
-    id: 'genspark',
-    label: 'Genspark',
-    keyPlaceholder: 'Not required - sign in to Genspark',
-    imageSearch: true,
-  },
   { id: 'serper', label: 'Serper', keyPlaceholder: 'Serper API key', imageSearch: true },
   { id: 'serply', label: 'Serply', keyPlaceholder: 'Serply API key', imageSearch: true },
   { id: 'tavily', label: 'Tavily', keyPlaceholder: 'tvly-...', imageSearch: false },
@@ -22,8 +16,8 @@ export const AI_SEARCH_PROVIDERS: AiSearchProviderMeta[] = [
 ]
 
 export function defaultAiSearchSettings(): AiSearchSettings {
+  // no provider chosen: the default chain runs (env keys, free Parallel, DuckDuckGo)
   return {
-    provider: 'genspark',
     providers: {
       serper: { apiKey: '' },
       serply: { apiKey: '' },
@@ -45,16 +39,25 @@ export function resolveAiSearchSettings(
     const key = stored.providers?.[id]?.apiKey
     if (typeof key === 'string') providers[id] = { apiKey: key.trim() }
   }
-  return { provider: stored.provider ?? defaults.provider, providers }
+  // a pre-fork 'genspark' (or any id this build does not ship) reads as not chosen
+  const provider = AI_SEARCH_PROVIDERS.some((m) => m.id === stored.provider)
+    ? stored.provider
+    : undefined
+  return provider ? { provider, providers } : { providers }
 }
 
-/** Parallel can run keylessly; other custom providers require a key or fall back to Genspark. */
-export function activeSearchProvider(settings: Pick<AiSettings, 'search'>): AiSearchProviderId {
-  const search = settings.search
-  if (!search || search.provider === 'genspark') return 'genspark'
-  if (!AI_SEARCH_PROVIDERS.some((m) => m.id === search.provider)) return 'genspark'
-  if (search.provider === 'parallel') return 'parallel'
+/**
+ * The chosen search provider when it can run: Parallel even without a key (its
+ * free Search MCP), any other only with one. Null means the default chain
+ * (env keys, then free Parallel, then DuckDuckGo).
+ */
+export function activeSearchProvider(
+  settings: Pick<AiSettings, 'search'>,
+): AiSearchProviderId | null {
+  const provider = settings.search?.provider
+  if (!provider || !AI_SEARCH_PROVIDERS.some((m) => m.id === provider)) return null
+  if (provider === 'parallel') return 'parallel'
   // Trim-aware: a whitespace-only key from in-memory settings falls back
   // instead of sending `Bearer    ` to the search backend.
-  return search.providers?.[search.provider]?.apiKey?.trim() ? search.provider : 'genspark'
+  return settings.search?.providers?.[provider]?.apiKey?.trim() ? provider : null
 }

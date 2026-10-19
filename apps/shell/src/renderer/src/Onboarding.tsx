@@ -15,9 +15,9 @@ interface Slide {
   subtitleKey: StringKey
   /** 16px muted paragraph below the title block */
   bodyKey?: StringKey
-  /** render the body in the dimmer footnote gray (slide 3's credits disclaimer) */
+  /** render the body in the dimmer footnote gray */
   bodyDim?: boolean
-  /** community slide shows the credits offer panel with the "Join GenTeam" call-to-action */
+  /** community slide shows the "Join GenTeam" call-to-action */
   showOffer?: boolean
   /** closing slide shows the "star us on GitHub" hint */
   showStar?: boolean
@@ -32,20 +32,11 @@ const SLIDES: readonly Slide[] = [
   {
     titleKey: 'onbTitle3',
     subtitleKey: 'onbBody3',
-    bodyKey: 'onbNote3',
-    bodyDim: true,
     showStar: true,
     showAnalyticsNotice: true,
     art: 'check',
   },
 ]
-
-/** render `**emphasized**` segments of a localized string as <strong> */
-function renderEmphasis(text: string) {
-  return text
-    .split('**')
-    .map((part, i) => (i % 2 === 1 ? <strong key={part}>{part}</strong> : part))
-}
 
 /* exact vectors from the design spec:
  * 60px canvas, 4px strokes — same visual mass as the 60px app icon */
@@ -222,7 +213,6 @@ export function Onboarding({ onDone }: OnboardingProps) {
               )}
               {s.showOffer && (
                 <div className="onb-offer">
-                  <p className="onb-credits">{renderEmphasis(t('onbCredits'))}</p>
                   <button className="onb-join" onClick={() => void window.aiOffice.openGenTeam()}>
                     {t('onbJoinGenTeam')}
                     <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">

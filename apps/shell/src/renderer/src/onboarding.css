@@ -255,25 +255,6 @@
   background: var(--onb-bg-panel);
 }
 
-.onb-credits {
-  margin: 0;
-  font-size: 16px;
-  letter-spacing: -0.154px;
-  line-height: 1.5;
-  color: var(--onb-text-secondary);
-}
-
-.onb-credits strong {
-  display: block;
-  margin-top: 4px;
-  color: var(--onb-brand);
-  font-size: 22px;
-  font-weight: 700;
-  font-style: italic;
-  letter-spacing: -0.3px;
-  line-height: normal;
-}
-
 /* the offer CTA is the dialog's standout action: a weighted blue outline —
  * 1.5px border + semibold + a faint blue seat-shadow so it doesn't float on
  * the tinted panel — inverting to solid blue on hover */

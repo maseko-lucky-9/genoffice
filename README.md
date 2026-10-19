@@ -9,14 +9,16 @@
 
 <h1 align="center">GenOffice</h1>
 
+<p align="center"><i>Fork of <a href="https://github.com/genspark-ai/genoffice">genspark-ai/genoffice</a> with the Genspark sign-in and cloud services removed; AI runs on your own Claude Code login, keys or local models.</i></p>
+
 <p align="center"><b>The world's first full-featured open-source AI Office suite.</b><br>
 Word, Excel, PowerPoint and PDF files, edited by you and your AI, saved back in the real formats.</p>
 
 <p align="center">
-  <a href="LICENSE"><img src="https://img.shields.io/github/license/genspark-ai/genoffice" alt="License: Apache-2.0"></a>
-  <a href="https://github.com/genspark-ai/genoffice/releases/latest"><img src="https://img.shields.io/github/v/release/genspark-ai/genoffice" alt="Latest release"></a>
-  <a href="https://github.com/genspark-ai/genoffice/releases"><img src="https://img.shields.io/github/downloads/genspark-ai/genoffice/total" alt="Downloads"></a>
-  <a href="https://github.com/genspark-ai/genoffice/stargazers"><img src="https://img.shields.io/github/stars/genspark-ai/genoffice?style=flat" alt="GitHub stars"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/maseko-lucky-9/genoffice" alt="License: Apache-2.0"></a>
+  <a href="https://github.com/maseko-lucky-9/genoffice/releases/latest"><img src="https://img.shields.io/github/v/release/maseko-lucky-9/genoffice" alt="Latest release"></a>
+  <a href="https://github.com/maseko-lucky-9/genoffice/releases"><img src="https://img.shields.io/github/downloads/maseko-lucky-9/genoffice/total" alt="Downloads"></a>
+  <a href="https://github.com/maseko-lucky-9/genoffice/stargazers"><img src="https://img.shields.io/github/stars/maseko-lucky-9/genoffice?style=flat" alt="GitHub stars"></a>
   <a href="https://x.com/merrickbuilds"><img src="https://img.shields.io/badge/follow-%40merrickbuilds-000000?logo=x&logoColor=white" alt="Follow @merrickbuilds on X"></a>
 </p>
 
@@ -55,8 +57,8 @@ file, makes the change, and shows you exactly what it touched.
 - **Ask your files, with sources.** Star a set of documents and **Ask AI** on
   the home screen answers questions across them, citing the file behind every
   claim so you can open it and check.
-- **Your keys or none.** Sign in with Genspark and skip keys, or bring your own
-  key for Claude, OpenAI, Gemini, DeepSeek, Kimi, GLM, Qwen, Doubao, MiniMax,
+- **Your keys or none.** Use the Claude Code CLI you are already signed in to
+  and skip keys, or bring your own key for Claude, OpenAI, Gemini, DeepSeek, Kimi, GLM, Qwen, Doubao, MiniMax,
   Grok, Mistral, OpenRouter, Requesty, Opper, Cheaper Inference, Atlas Cloud, or any OpenAI-compatible endpoint, local
   servers included.
 - **Scriptable and agent-ready.** The app ships a `genoffice` command line and
@@ -64,9 +66,9 @@ file, makes the change, and shows you exactly what it touched.
   and Windsurf, so a coding agent can create, convert, read and edit real
   Office files on your machine without opening a window.
 
-**Get it:** [macOS](https://github.com/genspark-ai/genoffice/releases/latest) (Apple Silicon and Intel) ·
-[Windows](https://github.com/genspark-ai/genoffice/releases/latest) (x64 and Arm) ·
-[Linux](https://github.com/genspark-ai/genoffice/releases/latest) (deb, rpm, AppImage) —
+**Get it:** [macOS](https://github.com/maseko-lucky-9/genoffice/releases/latest) (Apple Silicon and Intel) ·
+[Windows](https://github.com/maseko-lucky-9/genoffice/releases/latest) (x64 and Arm) ·
+[Linux](https://github.com/maseko-lucky-9/genoffice/releases/latest) (deb, rpm, AppImage) —
 details and requirements in [Download](#download).
 
 ## Demo
@@ -262,7 +264,7 @@ document in a visible editor tab while you watch.
 - **An AI that edits the document itself.** Tracked changes in Docs, live
   formulas and charts in Sheets, slides drawn onto the canvas, every AI turn a
   snapshot you can roll back.
-- **Your model, your key.** Sign in with Genspark, or bring a key for Claude,
+- **Your model, your key.** Use your Claude Code login, or bring a key for Claude,
   OpenAI, Gemini, DeepSeek and more, local servers and any OpenAI-compatible
   endpoint included.
 - **PDF done properly.** Edit text inside the page, and convert PDF to Word,
@@ -280,9 +282,8 @@ document in a visible editor tab while you watch.
 
 ## AI backends
 
-**Sign in with Genspark** and there is nothing to configure: model calls route
-through the Genspark proxy (Claude, GPT and Gemini families) and the agents get
-web and image search, image generation, and image/audio/video analysis.
+**Claude Code** is the default and needs nothing in GenOffice: model calls run
+through the `claude` command-line tool on its existing subscription login.
 
 **Or bring your own key.** Settings → AI lists Claude, OpenAI, Gemini,
 DeepSeek, Kimi, GLM, Qwen, Doubao, MiniMax, Grok, Mistral, OpenRouter, Requesty, Opper,
@@ -301,7 +302,7 @@ default; when on, the excerpts of the top 20 local hits are sent for judgment
 and nothing else leaves the machine.
 
 **Parallel** works without an account: its free Search MCP (rate-limited) is the
-default web search whenever no Genspark login or search key is configured, and
+default web search whenever no search key is configured, and
 it runs ahead of the DuckDuckGo scrape. Select Parallel under Web search and
 enter a [Parallel](https://platform.parallel.ai/) key to use the Search API
 instead.
@@ -454,18 +455,18 @@ the provider configured in GenOffice.
 
 ## Download
 
-| Platform                             | Requirements                                          | Download                                                                                  |
-| ------------------------------------ | ----------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| **macOS** — Apple Silicon (arm64)    | macOS 11+                                             | [Latest `.dmg` (arm64)](https://github.com/genspark-ai/genoffice/releases/latest)         |
-| **macOS** — Intel (x64)              | macOS 11+                                             | [Latest `.dmg` (x64)](https://github.com/genspark-ai/genoffice/releases/latest)           |
-| **Windows** (x64, most PCs)          | Windows 10+, Intel/AMD                                | [Latest `-x64.exe` installer](https://github.com/genspark-ai/genoffice/releases/latest)   |
-| **Windows** on Arm (ARM64)           | Windows 11 on Arm (Snapdragon X and similar)          | [Latest `-arm64.exe` installer](https://github.com/genspark-ai/genoffice/releases/latest) |
-| **Linux** — Debian / Ubuntu          | x86_64, glibc 2.34+ (Ubuntu 22.04 or newer)           | [Latest `.deb`](https://github.com/genspark-ai/genoffice/releases/latest)                 |
-| **Linux** — Fedora / RHEL / openSUSE | x86_64, glibc 2.34+ (Fedora 35+, RHEL 9+, Leap 15.6+) | [Latest `.rpm`](https://github.com/genspark-ai/genoffice/releases/latest)                 |
-| **Linux** — other distributions      | x86_64, glibc 2.34+, FUSE 2                           | [Latest `.AppImage`](https://github.com/genspark-ai/genoffice/releases/latest)            |
+| Platform                             | Requirements                                          | Download                                                                                     |
+| ------------------------------------ | ----------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| **macOS** — Apple Silicon (arm64)    | macOS 11+                                             | [Latest `.dmg` (arm64)](https://github.com/maseko-lucky-9/genoffice/releases/latest)         |
+| **macOS** — Intel (x64)              | macOS 11+                                             | [Latest `.dmg` (x64)](https://github.com/maseko-lucky-9/genoffice/releases/latest)           |
+| **Windows** (x64, most PCs)          | Windows 10+, Intel/AMD                                | [Latest `-x64.exe` installer](https://github.com/maseko-lucky-9/genoffice/releases/latest)   |
+| **Windows** on Arm (ARM64)           | Windows 11 on Arm (Snapdragon X and similar)          | [Latest `-arm64.exe` installer](https://github.com/maseko-lucky-9/genoffice/releases/latest) |
+| **Linux** — Debian / Ubuntu          | x86_64, glibc 2.34+ (Ubuntu 22.04 or newer)           | [Latest `.deb`](https://github.com/maseko-lucky-9/genoffice/releases/latest)                 |
+| **Linux** — Fedora / RHEL / openSUSE | x86_64, glibc 2.34+ (Fedora 35+, RHEL 9+, Leap 15.6+) | [Latest `.rpm`](https://github.com/maseko-lucky-9/genoffice/releases/latest)                 |
+| **Linux** — other distributions      | x86_64, glibc 2.34+, FUSE 2                           | [Latest `.AppImage`](https://github.com/maseko-lucky-9/genoffice/releases/latest)            |
 
 All builds come from `main`; the macOS and Windows installers are signed.
-Older versions are on the [Releases](https://github.com/genspark-ai/genoffice/releases) page.
+Older versions are on the [Releases](https://github.com/maseko-lucky-9/genoffice/releases) page.
 
 <details>
 <summary><b>Installing on Linux</b></summary>
@@ -539,7 +540,7 @@ change must pass and how pull requests land.
 GenOffice is in active development and your feedback shapes it.
 
 - **Report a bug or request a feature** in
-  [GitHub Issues](https://github.com/genspark-ai/genoffice/issues).
+  [GitHub Issues](https://github.com/maseko-lucky-9/genoffice/issues).
 - **Join the GenOffice group chat** on
   [GenTeam](https://genoffice.ai/join) to talk to the team and other users.
 - **Follow [@merrickbuilds](https://x.com/merrickbuilds) on X** for release
@@ -571,8 +572,8 @@ back byte-for-byte, so documents keep working in Microsoft Office.
 
 Document editing is fully local — files never leave your machine to be
 opened, edited, saved or converted. The AI features (agents, search, image
-tools) need a network connection, with either a Genspark sign-in or your own
-model API key.
+tools) use your local Claude Code login (Claude subscription), your own model
+API key, or a local model server such as Ollama — no account sign-in.
 
 </details>
 
@@ -597,7 +598,7 @@ convert to editable text rather than a page image.
 <details>
 <summary><b>Can I use my own AI model or API key?</b></summary>
 
-Yes. Besides the keyless Genspark sign-in, GenOffice supports bring your own
+Yes. Besides Claude Code (your Claude subscription, no key), GenOffice supports bring your own
 key for Claude, OpenAI, Gemini, DeepSeek, Kimi, GLM, Qwen, Doubao, MiniMax,
 Grok, Mistral, OpenRouter, Requesty, Opper, Cheaper Inference, Atlas Cloud and OpenCode Zen/Go, plus any OpenAI-compatible
 endpoint — including local model servers. Search, image generation and

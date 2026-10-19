@@ -70,7 +70,6 @@ export function KbAskPanel({
   const [draft, setDraft] = useState('')
   const [busy, setBusy] = useState(false)
   const [corpusCount, setCorpusCount] = useState<number | null>(null)
-  const [gskEmail, setGskEmail] = useState<string | null>(null)
   const corpusRef = useRef<KbFileInfo[]>([])
   const settingsRef = useRef<AiSettings | null>(null)
   const loopRef = useRef<AgentLoop<unknown> | null>(null)
@@ -107,10 +106,6 @@ export function KbAskPanel({
       })
       .catch(() => setCorpusCount(0))
     refreshSettings()
-    void window.aiOffice
-      .aiGskStatus()
-      .then((status) => setGskEmail(status.loggedIn ? (status.email ?? '') : null))
-      .catch(() => undefined)
     const docSkill = createDocumentSkill({
       create: (request) => window.aiOffice.kbCreateDocument(request),
     })
@@ -378,7 +373,6 @@ export function KbAskPanel({
           {t('askNoSave')}
         </p>
       )}
-      {gskEmail === null && <p className="kb-ask-login">{t('askNeedsLogin')}</p>}
       <AiComposer
         value={draft}
         busy={busy}

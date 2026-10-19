@@ -1,6 +1,6 @@
 # GenOffice のインストール
 
-すべてのビルドは [Releases ページ](https://github.com/genspark-ai/genoffice/releases/latest) で公開されています。すべて `main` 由来で、macOS と Windows のインストーラーは署名済みです。
+すべてのビルドは [Releases ページ](https://github.com/maseko-lucky-9/genoffice/releases/latest) で公開されています。すべて `main` 由来で、macOS と Windows のインストーラーは署名済みです。
 
 ## 自分のマシンに合わせてファイルを選ぶ
 

@@ -9,7 +9,6 @@ Beranda adalah halaman awal GenOffice: bilah navigasi di sebelah kiri, daftar fi
 - **Terbaru**: file yang baru saja Anda buka. Setiap baris diberi cap waktu — hari ini, kemarin, atau tanggalnya.
 - **Berbintang**: file yang Anda beri bintang. Arahkan kursor ke baris file lalu klik bintang untuk menambah atau menghapusnya. **Pindahkan ke grup** di menu ⋯ menyortir berkas berbintang ke grup bernama; tampilan Berbintang menyaring menurutnya.
 - **Ask AI**: panel basis pengetahuan — ajukan pertanyaan dan dapatkan jawaban yang mengutip berkas berbintang Anda (lihat di bawah).
-- **Genspark Projects**: setelah masuk ke akun Genspark, menampilkan proyek yang Anda buat dengan Genspark AI di web; klik salah satunya untuk melanjutkan pengeditan di browser. Pencarian, pengurutan menurut waktu, penyegaran, dan muat lebih banyak tersedia.
 - **Folder**: direktori yang Anda tambahkan ke bilah sisi dengan **Tambah folder…**, atau Anda seret ke sana dari aplikasi file. Masing-masing menjadi akar yang bisa Anda buka, buat subfolder di dalamnya, ganti namanya, dan hapus; akar yang jadi luring ditampilkan sebagai tidak tersedia dan bisa dilepas dari daftar. **Folder baru** membuat folder lagi.
 
 Tidak ada entri Sampah di sini. File yang dihapus masuk ke tempat sampah sistem, dan memulihkannya adalah urusan sistem operasi.
@@ -60,12 +59,6 @@ Apa yang dilakukan tiap kartu:
 
 - Bintangi berkas dulu (jenis apa pun yang aplikasi baca); kepala panel menghitung korpus, dan basis kosong mengajak Anda membintangi sesuatu.
 - Jawaban mengutip berkas sumbernya; klik kutipan untuk membuka berkas di editornya.
-- Perlu masuk ke Genspark. Percakapan hanya hidup di memori — menutup aplikasi mengakhirinya.
+- Percakapan hanya hidup di memori — menutup aplikasi mengakhirinya.
 - Pencarian berjalan di indeks berkas lokal, seperti pencarian Beranda; berkas yang hilang diam-diam keluar dari korpus.
 - Grup hanya merapikan daftar Berbintang — basis pengetahuan selalu mencakup semua berkas berbintang.
-
-## Proyek cloud (Genspark Projects)
-
-- Penggunaan pertama memerlukan masuk ke akun Genspark Anda (alur device-code: GenOffice menampilkan kode, Anda menyelesaikan login di browser).
-- Daftar proyek tersinkron dengan versi web; Buka di browser melompat ke sana untuk melanjutkan.
-- Tidak masuk tidak memengaruhi satu pun fitur lokal.

@@ -2,7 +2,7 @@
 
 ## Otwieranie ustawień
 
-Wiersz konta w lewym dolnym rogu strony głównej otwiera panel ustawień (gdy nie jesteś zalogowany, pokazuje Zaloguj się). Ma sześć sekcji: Konto, Model AI, Media i wyszukiwanie AI, Ogólne, Integracje i O aplikacji.
+Wiersz w lewym dolnym rogu strony głównej otwiera panel ustawień. Ma pięć sekcji: Model AI, Media i wyszukiwanie AI, Ogólne, Integracje i O aplikacji.
 
 ![Ustawienia ▸ Ogólne, gdzie znajdują się język, motyw, automatyczny zapis i przełącznik statystyk użycia](img/settings-general.png)
 
@@ -45,12 +45,6 @@ Ustawienia mogą zarejestrować GenOffice jako obsługę plików .docx / .xlsx /
 
 - Pomoc ▸ Informacje o oprogramowaniu innych firm: pełny wykaz licencji open source dołączony do aplikacji.
 - Pomoc ▸ Sprawdź aktualizacje…: uruchamia ręczne sprawdzenie; nowsza wersja wyświetla monit o instalacji.
-
-## Logowanie do Genspark
-
-- Punkt logowania (w ustawieniach lub na liście projektów w chmurze) korzysta z przepływu z **kodem urządzenia**: GenOffice pokazuje kod i otwiera stronę logowania w przeglądarce; po zakończeniu proces przebiega dalej automatycznie.
-- Logowanie służy wyłącznie do: listy projektów w chmurze i modeli hostowanych przez Genspark. Bez niego wszystkie funkcje lokalne i modele niestandardowe działają dalej.
-- Wylogowanie to jedno kliknięcie w ustawieniach.
 
 ## Integracja MCP (dla zaawansowanych użytkowników i klientów AI)
 

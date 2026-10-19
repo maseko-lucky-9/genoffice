@@ -85,8 +85,8 @@ function installApi(settings: AiSettings): void {
     githubStars: async () => null,
     getAiProviders: () => [
       {
-        id: 'genspark',
-        label: 'Genspark',
+        id: 'anthropic',
+        label: 'Claude',
         models: [],
         defaultModel: '',
         keyPlaceholder: 'k',
@@ -116,16 +116,7 @@ async function openAiPane(): Promise<void> {
         LocaleProvider,
         { initial: 'en' },
         createElement(SettingsModal, {
-          status: null,
-          loggingOut: false,
-          loginWaiting: false,
-          loginUrl: null,
-          urlCopied: false,
-          onOpenLoginUrl: vi.fn(),
-          onCopyLoginUrl: vi.fn(),
           onClose: vi.fn(),
-          onLogin: vi.fn(),
-          onLogout: vi.fn(),
         }),
       ),
     )
@@ -399,8 +390,8 @@ describe('the fold', () => {
     await answer(0, ['alpha', 'beta'])
     expect(modelBox()).toBeNull()
 
-    await pickProvider('Genspark')
-    expect(modelBox()).not.toBeNull() // genspark still has no model list
+    await pickProvider('Claude')
+    expect(modelBox()).not.toBeNull() // the other entry still has no model list
   })
 })
 
@@ -408,14 +399,14 @@ describe('the fold', () => {
 
 describe('scope', () => {
   it('does not probe a saved endpoint while another provider is selected', async () => {
-    installApi(storedSettings({ provider: 'genspark' }))
+    installApi(storedSettings({ provider: 'anthropic' }))
     await openAiPane()
     await tick()
     expect(calls).toEqual([])
   })
 
   it('probes as soon as the provider dropdown switches to the endpoint', async () => {
-    installApi(storedSettings({ provider: 'genspark' }))
+    installApi(storedSettings({ provider: 'anthropic' }))
     await openAiPane()
     await tick()
     expect(calls).toEqual([])
@@ -538,7 +529,7 @@ describe('request discipline', () => {
     await tick()
     expect(calls).toHaveLength(1) // out, and holding
 
-    await pickProvider('Genspark')
+    await pickProvider('Claude')
     await answer(0, ['alpha', 'beta']) // the endpoint answers too late to matter
 
     await pickProvider('Custom')

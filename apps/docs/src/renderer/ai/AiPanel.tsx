@@ -67,7 +67,7 @@ import { createElectronTransport } from './transport'
 import { useI18n, t as tModule, aiLangDirective, type StringKey } from '../i18n/locale'
 import { createFileNav, Markdown } from '@genoffice/ui'
 import { AiComposer, AiScopeQuote, AiTypingIndicator, type AiScopeQuoteData } from '@genoffice/ui'
-import { GensparkMark } from '../components/icons'
+import { AiMark } from '../components/icons'
 import sendEnterOn from '../assets/send-enter-on.png'
 import sendEnterOff from '../assets/send-enter-off.png'
 import sendStop from '../assets/send-stop.png'
@@ -118,8 +118,6 @@ interface ChatEntry {
   error?: string
   streaming?: boolean
   turnLimit?: boolean
-  /** the run failed because Genspark is signed out — render an inline sign-in button */
-  loginRequired?: boolean
   /** tool executions performed during this assistant turn */
   tools?: ToolActivity[]
   /** interactive mind map from generate_mindmap's side-channel display (session-only;
@@ -188,7 +186,7 @@ const PASTE_MIME_EXT: Record<string, string> = {
   'image/webp': 'webp',
 }
 
-/** File-type icons for attachment cards (Genspark attachment icon set); exts the
+/** File-type icons for attachment cards; exts the
  *  attachment allowlist doesn't accept yet are mapped ahead so they light up when added */
 const ATTACHMENT_CARD_ICON_GROUPS: [icon: string, exts: string[]][] = [
   [fileWordIcon, ['doc', 'docx']],
@@ -354,7 +352,6 @@ const MODEL_BRIDGE: AiModelPickerBridge = {
   getSettings: () => window.desktop.getAiSettings(),
   setSettings: (settings) => window.desktop.setAiSettings(settings),
   onSettingsChanged: (handler) => window.desktop.onAiSettingsChanged(handler),
-  gskLoggedIn: () => window.desktop.aiGskStatus().then((s) => !!s?.loggedIn),
   openModelSettings: () => window.desktop.openAiModelSettings().catch(() => {}),
 }
 
@@ -430,7 +427,7 @@ export function AiPanel({
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null)
   const [attachments, setAttachments] = useState<AttachmentMeta[]>([])
   const [attachNotice, setAttachNotice] = useState<string | null>(null)
-  /** data-URL previews for image attachments, keyed by path (Genspark composer thumbnails) */
+  /** data-URL previews for image attachments, keyed by path (composer thumbnails) */
   const [attachmentPreviews, setAttachmentPreviews] = useState<Record<string, string>>({})
   /** image paths with a read already issued — one readAttachmentImage per attach, even while pending */
   const previewRequestedRef = useRef(new Set<string>())
@@ -541,26 +538,6 @@ export function AiPanel({
   editorRef.current = editor
   const settingsRef = useRef(settings)
   settingsRef.current = settings
-  /** gsk login state for the generate_image gate (refreshed on mount and window focus) */
-  const gskLoggedInRef = useRef(false)
-  useEffect(() => {
-    let alive = true
-    const refresh = () => {
-      // tests render the panel without a preload bridge
-      void window.desktop
-        ?.aiGskStatus?.()
-        .then((s) => {
-          if (alive) gskLoggedInRef.current = !!s?.loggedIn
-        })
-        .catch(() => {})
-    }
-    refresh()
-    window.addEventListener('focus', refresh)
-    return () => {
-      alive = false
-      window.removeEventListener('focus', refresh)
-    }
-  }, [])
   const blocksRef = useRef(blocks)
   blocksRef.current = blocks
   const numIdFallbackRef = useRef(numIdFallback)
@@ -844,14 +821,14 @@ export function AiPanel({
           () => (trackChangesRef.current ? { author: AI_REVISION_AUTHOR } : undefined),
           () => commentsAccessRef.current,
           () => hfAccessRef.current,
-          () => imageGenerationAvailable(settingsRef.current, gskLoggedInRef.current),
+          () => imageGenerationAvailable(settingsRef.current),
           () => ({
             write: (spec, onProgress, signal) => runDocWriterRef.current(spec, onProgress, signal),
           }),
           () => pageSetupAccessRef.current,
           () => docExtrasRef.current,
           () => notesAccessRef.current,
-          () => mediaAnalysisAvailable(settingsRef.current, gskLoggedInRef.current),
+          () => mediaAnalysisAvailable(settingsRef.current),
         ),
         createFilesSkill(availableAttachments),
       ]),
@@ -959,25 +936,6 @@ export function AiPanel({
             }
             return boundChatHistory(next)
           })
-          // Signed-out failures get an inline sign-in button; detected via
-          // gsk status rather than matching the localized error text — but only
-          // when Genspark is the provider: a BYOK user's error (e.g. their own
-          // provider's rate limit) must not advertise a Genspark sign-in (genoffice#1948)
-          void window.desktop
-            .aiGskStatus()
-            .then((status) => {
-              if (status.loggedIn) return
-              if ((settingsRef.current?.provider ?? 'genspark') !== 'genspark') return
-              setChat((prev) => {
-                const next = [...prev]
-                const last = next.at(-1)
-                if (last?.role === 'assistant' && last.error) {
-                  next[next.length - 1] = { ...last, loginRequired: true }
-                }
-                return next
-              })
-            })
-            .catch(() => {})
           setBusy(false)
         },
       },
@@ -1389,7 +1347,7 @@ export function AiPanel({
         aria-label={t('appExpandAiPanel')}
         onClick={onExpand}
       >
-        <GensparkMark size={22} />
+        <AiMark size={22} />
       </button>
     )
   }
@@ -1421,7 +1379,7 @@ export function AiPanel({
       />
       <div className="ai-panel-header">
         <span className="ai-panel-title">
-          <GensparkMark size={22} />
+          <AiMark size={22} />
           {t('aiPanelTitle')}
         </span>
         <div className="ai-panel-header-actions">
@@ -1560,11 +1518,6 @@ export function AiPanel({
               )}
               {entry.error && (
                 <div className="ai-msg-error">{t('aiErrorPrefix', { error: entry.error })}</div>
-              )}
-              {entry.loginRequired && (
-                <button className="ai-login-btn" onClick={() => void window.desktop.aiGskLogin()}>
-                  {t('aiGskLoginBtn')}
-                </button>
               )}
               {showToolbar && (
                 <div className="ai-msg-toolbar">

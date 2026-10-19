@@ -9,7 +9,6 @@ Home is GenOffice's start page: a navigation sidebar on the left, file lists and
 - **Recent**: files you opened recently. Each row is stamped with when — today, yesterday, or the date.
 - **Starred**: files you starred. Hover a file row and click the star to add or remove it. The ⋯ menu's **Move to group** sorts starred files into named groups; the Starred view filters by them.
 - **Ask AI**: the knowledge-base panel — ask questions and get answers cited from your starred files (see below).
-- **Genspark Projects**: after signing in to your Genspark account, shows the projects you created with Genspark AI on the web; click one to continue editing in the browser. Search, sort by time, refresh and load-more are supported.
 - **Folders**: directories you add to the sidebar with **Add folder…**, or drag in from the file manager. Each becomes a root you can open, create subfolders in, rename and remove; one that goes offline shows as unavailable and can be taken off the list. **New folder** makes another one.
 
 There is no Trash entry here. Deleted files go to the system trash, and restoring one is the OS's business.
@@ -60,12 +59,6 @@ What each card does:
 
 - Star files first (any type the app reads); the panel header counts the corpus, and an empty knowledge base tells you to go star something.
 - Answers cite the files they came from; click a citation to open the file in its editor.
-- Requires signing in to Genspark. The conversation lives in memory only — closing the app ends it.
+- The conversation lives in memory only — closing the app ends it.
 - Search runs on the local file index, like Home search; files that have disappeared quietly drop out of the corpus.
 - Groups organise the Starred list only — the knowledge base always spans every starred file.
-
-## Cloud projects (Genspark Projects)
-
-- First use requires signing in to your Genspark account (device-code flow: GenOffice shows a code, you finish logging in in the browser).
-- The project list syncs with the web; Open in browser jumps there to continue.
-- Not signing in affects none of the local features.

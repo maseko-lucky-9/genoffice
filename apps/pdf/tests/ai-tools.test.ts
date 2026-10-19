@@ -129,7 +129,7 @@ function makeDeps(over: Partial<PdfAiDeps> = {}): PdfAiDeps {
           height: 600,
         },
       ],
-      method: 'gsk',
+      method: 'serper',
     })),
     generateImage: vi.fn(async () => ({ url: 'https://img.example/generated.png' })),
     fetchImage: vi.fn(async () => ({ png: 'PNGB64', width: 400, height: 300 })),

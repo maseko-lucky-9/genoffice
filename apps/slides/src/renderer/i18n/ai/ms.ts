@@ -17,8 +17,7 @@ export const ms = {
   aiQcPageSkipped: 'Halaman {n}: semakan susun atur automatik dilangkau',
   aiQcStopped: 'Semakan susun atur dihentikan',
   aiQcCapped: '{count} halaman lagi tidak disemak (had setiap larian)',
-  aiGskLoginBtn: 'Log masuk ke Genspark',
-  aiPanelTitle: 'Genspark',
+  aiPanelTitle: 'GenOffice AI',
   aiOpenAssistant: 'Buka pembantu AI',
   aiFactCheckBtn: 'Semak Fakta AI',
   aiFactCheckPrompt:
@@ -114,7 +113,7 @@ export const ms = {
   aiErrNetwork:
     'Masalah rangkaian: tidak dapat menghubungi perkhidmatan AI. Semak sambungan anda dan cuba lagi',
   aiCreditsExhausted:
-    'Kredit Genspark anda telah habis. Tambah nilai di genspark.ai/pricing dan cuba lagi',
+    'Had penggunaan atau kredit penyedia AI telah habis. Semak pelan atau kunci API anda, kemudian cuba lagi',
   aiErrRequestFailed: 'Gagal menghantar permintaan: {msg}',
   aiErrGenerateFailed: 'Penjanaan gagal',
   aiErrRegenFailed: 'Gagal membuat semula slaid',
@@ -223,5 +222,4 @@ export const ms = {
   aiSumSaveTemplate: 'Menyimpan templat gaya "{name}"',
   aiSumTemplatesEmpty: 'Templat gaya (kosong)',
   aiSumListTemplates: 'Menyenaraikan {count} templat gaya',
-  aiPageCloudToLocal: 'Awan tidak tersedia — dijana secara setempat',
 } satisfies Record<keyof typeof zh, string>

@@ -161,7 +161,7 @@ import {
 import { WRAP_OPTIONS } from './ContextMenu'
 import { CropDialog, CutoutDialog } from './PictureDialogs'
 import {
-  GensparkMark,
+  AiMark,
   IconAlignCenter,
   IconAlignJustify,
   IconAlignLeft,
@@ -3064,7 +3064,7 @@ function RibbonInner({
           </div>
         ) : tab === 'home' ? (
           <>
-            {/* ---- Genspark AI (first slot: entry + one-click AI actions) ---- */}
+            {/* ---- GenOffice AI (first slot: entry + one-click AI actions) ---- */}
             <div className="ribbon-group">
               <div className="ribbon-group-items">
                 <button
@@ -3073,9 +3073,9 @@ function RibbonInner({
                   onClick={onToggleAi}
                 >
                   <span className="rb-big-icon">
-                    <GensparkMark size={26} />
+                    <AiMark size={26} />
                   </span>
-                  <span>Genspark AI</span>
+                  <span>GenOffice AI</span>
                 </button>
                 <button
                   className="rb-big ai-entry"
@@ -3200,7 +3200,7 @@ function RibbonInner({
                   <span>{t('aiMindMapBtn')}</span>
                 </button>
               </div>
-              <div className="ribbon-group-label">Genspark AI</div>
+              <div className="ribbon-group-label">GenOffice AI</div>
             </div>
 
             <div className="ribbon-sep" />

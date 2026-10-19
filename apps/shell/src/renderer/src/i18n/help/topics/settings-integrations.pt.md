@@ -2,7 +2,7 @@
 
 ## Abrir as configurações
 
-A linha da conta no canto inferior esquerdo do ecrã Início abre o painel de configurações (mostra Entrar quando não tem sessão iniciada). O painel tem seis secções: Conta, Modelo de IA, Mídia e busca de IA, Geral, Integrações e Sobre.
+A linha no canto inferior esquerdo do ecrã Início abre o painel de configurações. O painel tem cinco secções: Modelo de IA, Mídia e busca de IA, Geral, Integrações e Sobre.
 
 ![Configurações ▸ Geral, onde vivem o idioma, o tema, a guardado automático e o interruptor das estatísticas de utilização](img/settings-general.png)
 
@@ -45,12 +45,6 @@ As Configurações podem registar o GenOffice como a aplicação que abre fichei
 
 - Ajuda ▸ Avisos de software de terceiros: o inventário completo das licenças de código aberto que acompanha a aplicação.
 - Ajuda ▸ Procurar atualizações…: inicia uma verificação manual; e se houver uma versão mais recente, o GenOffice propõe a instalação.
-
-## Entrar na Genspark
-
-- O acesso (nas Configurações ou na lista de projetos na nuvem) usa um fluxo de **código de dispositivo**: o GenOffice mostra um código e abre o início de sessão no navegador; e a partir daí o processo prossegue sozinho.
-- O início de sessão serve apenas para: a lista de projetos na nuvem e os modelos alojados da Genspark. Sem ele, todas as funcionalidades locais e os modelos personalizados continuam a funcionar.
-- Terminar sessão é um clique nas Configurações.
 
 ## Integração MCP (para utilizadores avançados / clientes de IA)
 

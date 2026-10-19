@@ -4,25 +4,17 @@
  * ## Why a script and not a hand capture
  *
  * The figures were first shot from a developer's own session, which put their
- * account name in the greeting and their e-mail address in Settings → Account.
- * A committed screenshot is forever, so the fix is not "remember to crop" but a
- * capture that *cannot* pick up the developer's account: a scratch HOME, a
- * scratch userData, and a scratch samples folder, all discarded afterwards.
+ * personal files, recent documents and settings into the pictures. A committed
+ * screenshot is forever, so the fix is not "remember to crop" but a capture
+ * that *cannot* pick up the developer's session: a scratch HOME, a scratch
+ * userData, and a scratch samples folder, all discarded afterwards.
  *
  * ## Why HOME and not just GENOFFICE_USER_DATA
  *
- * The account name is not in userData at all. `gskApiKey()` reads
- * `~/.genspark-tool-cli/config.json` through `homedir()`, and GENOFFICE_USER_DATA
- * says nothing about that — so a run that only overrides userData still finds
- * the developer's key and greets them by name (verified: that is what a local
- * e2e run does today). HOME is the one lever that covers both it and the
- * `~/.genoffice/bin` shim. `GENOFFICE_AUTH_DIR` is not enough on its own: it
- * redirects GenOffice's own key and leaves the shared gsk CLI config in place.
- *
- * With no key, `gskLoginInfo()` returns null, the app reads as signed out, and
- * the greeting, the account row and the Genspark Projects entry all disappear —
- * which is also the state every CI run and every user without a Genspark account
- * is in. Nothing of the developer's own session is read or written.
+ * Not everything the app reads lives in userData: the `~/.genoffice/bin` shim
+ * and other per-user files resolve through `homedir()`, which
+ * GENOFFICE_USER_DATA says nothing about. HOME is the one lever that covers
+ * them all, so nothing of the developer's own session is read or written.
  */
 import {
   _electron as electron,
@@ -284,13 +276,13 @@ async function main(): Promise<void> {
       await page.waitForTimeout(300)
 
       // 3. Settings. There is no gear in the top-right: the modal opens from the
-      //    account row at the bottom-left (Home.tsx's AccountEntry says so), and
-      //    its aria-label is localized, so match the class rather than the text.
+      //    Settings row at the bottom-left (Home.tsx's AccountEntry), and its
+      //    aria-label is localized, so match the class rather than the text.
       //    Two panes, each saved under the name of the pane it actually shows:
       //    General is where the manual's own subjects live — language and theme,
-      //    plus the analytics and AutoSave switches — and Account is where the
-      //    e-mail used to leak from. Integrations is the pane the MCP topic is
-      //    about, so it gets its own figure rather than a stand-in.
+      //    plus the analytics and AutoSave switches. Integrations is the pane
+      //    the MCP topic is about, so it gets its own figure rather than a
+      //    stand-in.
       await page.locator('.account-btn').click()
       const nav = page.locator('.set-nav-item')
       const openPane = async (name: RegExp, shot: string) => {
@@ -303,8 +295,8 @@ async function main(): Promise<void> {
       // Every shipped UI language's own label for the pane, taken from
       // `setSecGeneral` / `setSecIntegrations` in strings.ts. Matching three of
       // them and skipping the click on a miss is how this silently captured the
-      // default pane for the other eighteen: the figure came out as Account, not
-      // General, and nobody noticed because the file name still said otherwise.
+      // default pane for the other eighteen: the figure came out as the default
+      // pane, not General, and nobody noticed because the file name still said otherwise.
       await openPane(
         /通用|General|Chung|一般|일반|Général|Allgemein|ทั่วไป|Umum|Общие|عام|Geral|Generale|Ogólne|Obecné|Algemeen|כללי|सामान्य/,
         'settings-general',

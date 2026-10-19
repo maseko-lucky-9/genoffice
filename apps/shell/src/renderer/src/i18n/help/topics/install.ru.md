@@ -1,6 +1,6 @@
 # Установка GenOffice
 
-Каждая сборка опубликована на [странице релизов](https://github.com/genspark-ai/genoffice/releases/latest). Все они собраны из `main`; установщики для macOS и Windows подписаны.
+Каждая сборка опубликована на [странице релизов](https://github.com/maseko-lucky-9/genoffice/releases/latest). Все они собраны из `main`; установщики для macOS и Windows подписаны.
 
 ## Выберите файл для своего компьютера
 

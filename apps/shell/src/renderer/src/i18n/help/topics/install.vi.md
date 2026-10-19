@@ -1,6 +1,6 @@
 # Cài đặt GenOffice
 
-Mọi bản dựng đều được công bố trên [trang phát hành](https://github.com/genspark-ai/genoffice/releases/latest). Tất cả đều đến từ `main`; và trình cài đặt cho macOS và Windows đã được ký.
+Mọi bản dựng đều được công bố trên [trang phát hành](https://github.com/maseko-lucky-9/genoffice/releases/latest). Tất cả đều đến từ `main`; và trình cài đặt cho macOS và Windows đã được ký.
 
 ## Chọn tệp cho máy của bạn
 

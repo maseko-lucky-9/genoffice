@@ -4,7 +4,8 @@ export const en = {
   aiCollapsePanel: 'Collapse panel',
   aiComposerPlaceholder: 'Ask AI to write or edit the document…',
   aiCopyReplyTitle: 'Copy reply',
-  aiCreditsExhausted: 'Out of credits — top up at genspark.ai',
+  aiCreditsExhausted:
+    "The AI provider's usage limit or credits have run out. Check your plan or API key, then try again",
   aiEmptyTitle: 'Design a page with AI',
   aiEmptyBody:
     'Landing page, report, poster — say what it is for and who it is for; AI proposes a brief first, then builds the page',

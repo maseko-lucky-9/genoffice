@@ -595,18 +595,6 @@ html.genoffice-popover-open .ribbon-tabs {
   box-shadow: var(--docs-shadow-badge);
 }
 
-/* Genspark brand logo (Ribbon AI button and AI panel title) */
-.genspark-badge {
-  display: block;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-}
-
-.ai-panel-title .genspark-badge {
-  width: 18px;
-  height: 18px;
-}
 /* ---- ribbon body ---- */
 
 .ribbon-body {
@@ -13126,21 +13114,6 @@ tr > .page-gap-cut {
   .ai-dock {
     transition: none;
   }
-}
-
-.ai-login-btn {
-  margin-top: 8px;
-  border: 1px solid var(--accent);
-  border-radius: 6px;
-  background: var(--accent);
-  padding: 4px 14px;
-  font-size: 13px;
-  color: var(--docs-on-accent);
-  cursor: pointer;
-}
-
-.ai-login-btn:hover {
-  opacity: 0.88;
 }
 
 /* ================= transient toast (save feedback) ================= */

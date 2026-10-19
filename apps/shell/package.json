@@ -3,7 +3,7 @@
   "productName": "GenOffice",
   "version": "0.11.0",
   "license": "Apache-2.0",
-  "homepage": "https://github.com/genspark-ai/genoffice",
+  "homepage": "https://github.com/maseko-lucky-9/genoffice",
   "private": true,
   "description": "Unified GenOffice shell: one app hosting the docs and sheets modules behind a home/launcher window",
   "main": "out/main/index.js",

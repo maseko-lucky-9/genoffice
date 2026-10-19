@@ -5,7 +5,7 @@
  * cliPath probe). SECURITY.md promises payloads are schema-checked in the main
  * process; a compromised renderer must not be able to plant an arbitrary
  * cliPath (later spawn()ed by the Codex app-server) or a baseUrl that would
- * receive the user's gsk bearer token. Electron-free so unit tests can import
+ * receive the user's API key. Electron-free so unit tests can import
  * it directly.
  *
  * Coercion follows the file's own house style (String() narrowing like the
@@ -110,11 +110,16 @@ export function sanitizeCliPath(raw: unknown): string | undefined {
 
 function sanitizeMediaSettings(raw: Record<string, unknown>): AiSettings['media'] {
   const media = { ...raw } as unknown as NonNullable<AiSettings['media']>
+  // a removed provider must not be written back; resolveAiSettings fills the defaults
+  for (const key of ['imageProvider', 'analysisProvider', 'videoAnalysisProvider'] as const) {
+    if ((media[key] as string | undefined) === 'genspark') delete media[key]
+  }
   if (typeof raw.providers !== 'object' || raw.providers === null || Array.isArray(raw.providers)) {
     return media
   }
   const providers: Record<string, unknown> = {}
   for (const [id, value] of Object.entries(raw.providers as Record<string, unknown>)) {
+    if (id === 'genspark') continue
     if (typeof value !== 'object' || value === null || Array.isArray(value)) continue
     const config = { ...(value as Record<string, unknown>) }
     if (config.baseUrl !== undefined && config.baseUrl !== null && config.baseUrl !== '') {
@@ -182,14 +187,16 @@ function sanitizeCustomEndpoints(raw: unknown): AiCustomEndpoint[] {
 
 /**
  * Returns a sanitized copy of `input`, or null when the payload is not even
- * the right shape (non-object, unknown provider). Invalid individual fields
+ * the right shape (non-object, unknown provider). A legacy Genspark selection
+ * maps to Claude Code instead of rejecting the whole payload. Invalid individual fields
  * are dropped rather than rejecting the whole payload, so a half-filled
  * provider config cannot brick the rest of the settings.
  */
 export function sanitizeAiSettings(input: unknown): AiSettings | null {
   if (typeof input !== 'object' || input === null || Array.isArray(input)) return null
   const raw = input as Record<string, unknown>
-  const provider = raw.provider
+  // the provider a pre-fork build defaulted to no longer exists
+  const provider = raw.provider === 'genspark' ? 'claude-code' : raw.provider
   if (typeof provider !== 'string' || !PROVIDER_IDS.includes(provider as AiProviderId)) return null
   if (typeof raw.providers !== 'object' || raw.providers === null || Array.isArray(raw.providers)) {
     return null
@@ -203,7 +210,6 @@ export function sanitizeAiSettings(input: unknown): AiSettings | null {
     provider: provider as AiProviderId,
     providers,
   }
-  if (typeof raw.gskToolsEnabled === 'boolean') settings.gskToolsEnabled = raw.gskToolsEnabled
   const customEndpoints = sanitizeCustomEndpoints(raw.customEndpoints)
   if (customEndpoints.length > 0) {
     settings.customEndpoints = customEndpoints

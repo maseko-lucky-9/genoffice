@@ -2,7 +2,7 @@
 
 ## Instellingen openen
 
-De accountregel linksonder op Start opent het instellingenpaneel (als je niet bent aangemeld staat er Inloggen). Het paneel heeft zes secties: Account, AI-model, AI-media en zoeken, Algemeen, Integraties en Over.
+De regel linksonder op Start opent het instellingenpaneel. Het paneel heeft vijf secties: AI-model, AI-media en zoeken, Algemeen, Integraties en Over.
 
 ![Instellingen ▸ Algemeen, waar taal, thema, automatisch opslaan en de schakelaar voor gebruiksstatistieken staan](img/settings-general.png)
 
@@ -45,12 +45,6 @@ Met de instellingen kun je GenOffice registreren als verwerker van .docx / .xlsx
 
 - Help ▸ Kennisgevingen over software van derden: het volledige overzicht van opensourcelicenties dat met de app is meegeleverd.
 - Help ▸ Controleren op updates…: start een handmatige controle; bij een nieuwere versie wordt je gevraagd die te installeren.
-
-## Aanmelden bij Genspark
-
-- Het aanmeldpunt (in de instellingen of in de lijst met cloudprojecten) gebruikt een flow met **apparaatcode**: GenOffice toont een code en opent de aanmeldpagina in de browser; daarna gaat het automatisch verder.
-- Aanmelden wordt alleen gebruikt voor: de lijst met cloudprojecten en de modellen die Genspark host. Zonder aanmelden blijven alle lokale functies en eigen modellen werken.
-- Uitloggen is in de instellingen met één klik te doen.
 
 ## MCP-integratie (voor gevorderde gebruikers / AI-clients)
 

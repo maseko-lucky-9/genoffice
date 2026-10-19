@@ -2,7 +2,7 @@
 
 ## Membuka tetapan
 
-Baris akaun di penjuru kiri bawah pada Laman Utama akan membuka panel tetapan. Ia memaparkan Log masuk apabila anda belum log masuk. Panel ini mempunyai enam bahagian: Akaun, Model AI, Media & Carian AI, Umum, Integrasi dan Perihal.
+Baris di penjuru kiri bawah pada Laman Utama akan membuka panel tetapan. Panel ini mempunyai lima bahagian: Model AI, Media & Carian AI, Umum, Integrasi dan Perihal.
 
 ![Tetapan ▸ Umum, tempat bahasa, tema, autosimpan dan suis statistik penggunaan berada](img/settings-general.png)
 
@@ -45,12 +45,6 @@ Tetapan boleh mendaftar GenOffice sebagai aplikasi yang mengendalikan fail .docx
 
 - Bantuan ▸ Notis Perisian Pihak Kedua memaparkan senarai penuh lesen perisian sumber terbuka yang disertakan dengan aplikasi.
 - Bantuan ▸ Semak Kemas Kini memulakan pemeriksaan secara manual. Jika terdapat versi yang lebih baharu, aplikasi akan meminta anda memasangnya.
-
-## Log masuk ke Genspark
-
-- Kemasukan log masuk, sama ada melalui tetapan atau senarai projek awan, menggunakan aliran **kod peranti**. GenOffice memaparkan kod tersebut dan membuka halaman log masuk dalam pelayar, dan aliran ini akan diteruskan secara automatik selepas selesai.
-- Log masuk hanya digunakan untuk dua perkara, iaitu senarai projek awan dan model yang dihoskan oleh Genspark. Tanpa log masuk, setiap fungsi setempat dan model tersuai akan terus berfungsi.
-- Log keluar boleh dilakukan dengan satu klik dalam tetapan.
 
 ## Integrasi MCP
 

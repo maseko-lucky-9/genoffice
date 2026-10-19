@@ -17,7 +17,6 @@ export interface AiModelPickerBridge {
   readonly setSettings: (settings: AiSettings) => Promise<void>
   /** fires after any renderer (this one, another tab, the shell settings page) saved ai-settings.json */
   readonly onSettingsChanged?: ((handler: () => void) => () => void) | undefined
-  readonly gskLoggedIn?: (() => Promise<boolean>) | undefined
   /** shell: switch to Home and open Settings › AI Model */
   readonly openModelSettings?: (() => Promise<void> | void) | undefined
 }
@@ -37,7 +36,6 @@ export function AiModelPicker({
 }): React.JSX.Element | null {
   const strings = AI_MODEL_PICKER_STRINGS[lang] ?? AI_MODEL_PICKER_STRINGS.en
   const [settings, setSettings] = useState<AiSettings | null>(null)
-  const [loggedIn, setLoggedIn] = useState(false)
   const [open, setOpen] = useState(false)
   const [popStyle, setPopStyle] = useState<React.CSSProperties>({})
   const chipRef = useRef<HTMLButtonElement | null>(null)
@@ -48,9 +46,6 @@ export function AiModelPicker({
     Promise.resolve()
       .then(() => bridge.getSettings())
       .then(setSettings, () => {})
-    Promise.resolve()
-      .then(() => bridge.gskLoggedIn?.() ?? false)
-      .then(setLoggedIn, () => {})
   }, [bridge])
 
   useEffect(() => {
@@ -73,10 +68,7 @@ export function AiModelPicker({
     inside: () => [chipRef.current, popRef.current],
   })
 
-  const groups = useMemo(
-    () => (settings ? aiModelPickerGroups(settings, loggedIn) : []),
-    [settings, loggedIn],
-  )
+  const groups = useMemo(() => (settings ? aiModelPickerGroups(settings) : []), [settings])
   const current = settings ? aiModelPickerSelection(settings) : null
   const sameGroup = (g: { id: string; endpoint?: string | undefined }) =>
     g.id === current?.provider && (g.id !== 'custom' || g.endpoint === current?.endpoint)
