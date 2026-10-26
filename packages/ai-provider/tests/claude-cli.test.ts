@@ -184,9 +184,10 @@ function expectedArgs(schemaTools: AgentToolDef[], model: string): string[] {
 
 /** Resolve once the fake child exists, while other timers may be faked. */
 async function spawnedOnce(spawned: unknown[]): Promise<void> {
-  // Bounded: an unbounded spin outlives the test timeout and pins a CPU in an orphaned worker.
-  for (let i = 0; spawned.length === 0; i++) {
-    if (i > 10_000) throw new Error('spawn was never called')
+  // Bounded under the 5 s test timeout: an unbounded spin outlives it and pins a CPU in an orphaned worker.
+  const deadline = Date.now() + 2_000
+  while (spawned.length === 0) {
+    if (Date.now() > deadline) throw new Error('spawn was never called')
     await new Promise((r) => setImmediate(r))
   }
 }
