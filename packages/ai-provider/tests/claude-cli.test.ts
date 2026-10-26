@@ -184,7 +184,12 @@ function expectedArgs(schemaTools: AgentToolDef[], model: string): string[] {
 
 /** Resolve once the fake child exists, while other timers may be faked. */
 async function spawnedOnce(spawned: unknown[]): Promise<void> {
-  while (spawned.length === 0) await new Promise((r) => setImmediate(r))
+  // Bounded under the 5 s test timeout: an unbounded spin outlives it and pins a CPU in an orphaned worker.
+  const deadline = Date.now() + 2_000
+  while (spawned.length === 0) {
+    if (Date.now() > deadline) throw new Error('spawn was never called')
+    await new Promise((r) => setImmediate(r))
+  }
 }
 
 /** `cliPath: 'claude'` is a bare command, so no test depends on a real install. */
